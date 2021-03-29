@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Renseignement Mouvement{% endblock %}
+
+{% block body %}
+
+    <a class="btn btn-link" href="/chrg" role="button"><img src="/img/retour.png"></a>
+
+ {% if statMvt %}
+  <table id="statMvt" name="statMvt" class="table table-striped fixed_header" style="padding:5px; border-spacing:5px;">
+   <thead>
+    <th> ID</th>
+    <th> Nom Ficher</th>
+    <th> Date de chargement</th>
+    <th> Heure de chargement</th>
+    <th> Date bourse</th>
+    <th> Etat</th>
+    <th> Remarque</th>
+    <th> Nombre de lignes</th>
+    <th> Actions</th>
+   </thead>
+    <tbody>
+     {% for statmv in statMvt %}
+         <tr>
+          <td class="pt-1 pb-1"> {{ statmv.id }}</td>
+          <td class="pt-1 pb-1"> {{ statmv.NomFicher }}</td>
+          <td class="pt-1 pb-1"> {{ statmv.DateChrg|date("m/d/Y") }}</td>
+          <td class="pt-1 pb-1"> {{ statmv.HeureChrg|date("H:i:s") }}</td>
+          <td class="pt-1 pb-1"> {{ statmv.DateBourse|date("m/d/Y") }}</td>
+          <td class="pt-1 pb-1"> {{ statmv.Etat }}</td>
+          <td class="pt-1 pb-1"> {{ statmv.RemarqueMotif }}</td>
+          <td class="pt-1 pb-1"> {{ statmv.NbLignes }}</td>
+          <td class="pt-1 pb-1"> 
+            <a href="#" class="btn btn-danger delete-stat btn-sm" data-id="{{ statmv.id }}">Supprimer</a> 
+          </td>
+         </tr> 
+     {% endfor %}
+    </tbody>
+  </table>
+
+   <script src="/js/del/suppstatmv.js"></script>
+
+  {% else %}
+  <div class="alert alert-dismissible alert-primary">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4 class="alert-heading">Tableau vide!</h4>
+  <p class="mb-0">pas des données de chargement.</p>
+</div>
+ {% endif %}
+
+
+{% endblock %}

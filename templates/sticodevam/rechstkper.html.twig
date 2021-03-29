@@ -1,0 +1,128 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stock par période{% endblock %}
+
+{% block body %}
+
+<style>
+
+ td,th{
+  padding: 5px;
+}
+
+</style>
+
+    <a class="btn btn-link" href="/sticodevam" role="button"><img src="/img/retour.png"></a>
+
+<br>
+<h2>Consulter l'historique Stock par période</h2>
+<br>
+
+{{ form_start(rech_form_per) }}
+<center>
+ <table>
+    <tr>
+    <td>{{ form_label(rech_form_per.Dateadeb) }}</td>
+    <td>{{ form_widget(rech_form_per.Dateadeb) }}</td>
+    <td>{{ form_label(rech_form_per.Dateafin) }}</td>     
+    <td>{{ form_widget(rech_form_per.Dateafin) }}</td>
+    </tr>
+    <tr>
+    <td>{{ form_label(rech_form_per.Datebdeb) }}</td>
+    <td>{{ form_widget(rech_form_per.Datebdeb) }}</td>
+    <td>{{ form_label(rech_form_per.Datebfin) }}</td>     
+    <td>{{ form_widget(rech_form_per.Datebfin) }}</td>
+    </tr>
+    <tr>
+    <td>{{ form_label(rech_form_per.Sisin) }}</td>     
+    <td>{{ form_widget(rech_form_per.Sisin) }}</td>
+    <td>{{ form_label(rech_form_per.Tisin) }}</td>     
+    <td>{{ form_widget(rech_form_per.Tisin) }}</td>
+    </tr>
+    <tr>
+    <td>{{ form_label(rech_form_per.Scodead) }}</td>     
+    <td>{{ form_widget(rech_form_per.Scodead) }}</td>
+    <td>{{ form_label(rech_form_per.Tcodead) }}</td>     
+    <td>{{ form_widget(rech_form_per.Tcodead) }}</td>
+    </tr>
+
+</table>
+</center>
+
+{{ form_widget(rech_form_per.submit) }}
+
+{{ form_end(rech_form_per) }}
+
+<br>
+
+{% if stocks %}
+
+<div id="stcItems" class="container">
+
+<ul class="nav nav-tabs">
+
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#tab">Tableau</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#graph">Graphique</a>
+  </li>
+  
+</ul>
+
+<div id="myTabContent" class="tab-content">
+
+  <div class="tab-pane fade active show" id="tab">
+<br>
+
+<center>
+<table id="dataTable" name="stocks" class="table-scroll small-first-col table table-striped fixed_header tablew">
+   <thead class="table-primary">
+    <th class="t1">Adhérent</th>
+    <th class="t1">Nature Compte</th>
+    <th class="t1">Catégorie Avoir</th>
+    <th class="t1">Date Bourse</th>
+    <th class="t1">Date Comptable</th>
+    <th class="t1">Quantité</th>
+   </thead>
+    <tbody class="body-half-screen">
+     {% for stk in stocks %}
+         <tr name="{{ stk.StockExchangeDate|date("m/d/Y") }}{{ stk.Quantity }}">
+          <td class="pt-1 pb-1" id="{{ stk.id }}"> {{ stk.CodeAdherent.CodeAdherent }}</td>
+          <td class="pt-1 pb-1" id="{{ stk.id }}"> {{ stk.NatureCompte.LibelleNatureCompte }}</td>
+          <td class="pt-1 pb-1" id="{{ stk.id }}"> {{ stk.CategorieAvoir.LibelleCategorieAvoir }}</td>
+          <td class="pt-1 pb-1" id="{{ stk.id }}"> {{ stk.StockExchangeDate|date("m/d/Y") }}</td>
+          <td class="pt-1 pb-1" id="{{ stk.id }}"> {{ stk.AccountingDate|date("m/d/Y") }}</td>
+          <td class="pt-1 pb-1" id="{{ stk.id }}"> {{ stk.Quantity|number_format }}</td>
+         </tr> 
+     {% endfor %}
+    </tbody>
+  </table>
+</center>
+</div>   
+
+
+  <div class="tab-pane fade" id="graph">
+    <div id="chart_div" style="width: 400px; height: 200px;"></div>
+  </div>
+
+
+</div>
+
+  {% else %}
+  <div class="alert alert-dismissible alert-primary">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <h4 class="alert-heading">Tableau vide!</h4>
+    <p class="mb-0">pas des données de stocks.</p>
+    </div> 
+  </div>
+ {% endif %} 
+
+
+
+  <script src="/js/graph/area.js"></script>
+ {# <script src="/js/graph/graph.js"></script>  #}
+
+
+
+{% endblock %}

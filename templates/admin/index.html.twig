@@ -1,0 +1,16 @@
+{% extends 'baseadmin.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+
+{% block body %}
+
+<div class="cntainer">
+  <h1 >Bonjour, {{ app.user.nom  }}</h1>
+  <hr class="my-4">
+  <p class="lead">
+
+    <a class="btn btn-link" href="/" role="button">Retour a l'acceuil</a>
+  </p>
+  
+</div>
+{% endblock %}

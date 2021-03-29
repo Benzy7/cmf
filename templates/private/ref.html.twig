@@ -1,0 +1,132 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réfèrentiel{% endblock %}
+
+{% block body %}
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="/css/sidetab.css">
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="vertical-tab" role="tabpanel">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="">
+                    <a href="#general" role="tab" data-toggle="tab">Générale</a>
+                    </li>
+                    <li role="presentation" class="">
+                    <a href="#sticodevam" role="tab" data-toggle="tab">Sticodevam</a>
+                    </li>
+                    <li role="presentation" class="">
+                    <a href="#intermidaires" role="tab" data-toggle="tab">Intermediares</a>
+                    </li>
+                     <li role="presentation" class="">
+                    <a href="#alerts" role="tab" data-toggle="tab">Alertes</a>
+                    </li>
+                     <li role="presentation" class="">
+                    <a href="#orders" role="tab" data-toggle="tab">Orders</a>
+                    </li>
+                     <li role="presentation" class="">
+                    <a href="#evenement" role="tab" data-toggle="tab">Evènements</a>
+                    </li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content tabs">
+                    <div role="tabpanel" class="tab-pane fade in active" id="general">
+                        <h3>Paramétres généarales</h3>
+                        <br>
+                          <div class="btn-group-vertical">
+                          <a class="btn btn-outline-secondary" href="#" role="button">Données généarales</a>    
+                          <a class="btn btn-outline-secondary" href="#" role="button">Liste d'Intermediares</a>    
+                          <a class="btn btn-outline-secondary" href="#" role="button">Groupes de cotation</a>    
+                          <a class="btn btn-outline-secondary" href="#" role="button">Types des valeus mobilières</a>    
+                          <a class="btn btn-outline-secondary" href="#" role="button">Types de compte</a>    
+                          <a class="btn btn-outline-secondary" href="#" role="button">Industries</a>  
+                          </div>
+
+                          <div class="btn-group-vertical">
+                          <a class="btn btn-outline-secondary" href="#" role="button">Super secteurs</a>    
+                          <a class="btn btn-outline-secondary" href="#" role="button">Secteurs</a>    
+                          <a class="btn btn-outline-secondary" href="#" role="button">Sous secteurs economiques</a>    
+                          <a class="btn btn-outline-secondary" href="#" role="button">Liste des pays</a>    
+                          <a class="btn btn-outline-secondary" href="#" role="button">Liste des devises</a>    
+                          <a class="btn btn-outline-secondary" href="#" role="button">Descriptif des taux</a>    
+                        </div>
+                    </div>
+                    
+                    <div role="tabpanel" class="tab-pane fade" id="sticodevam">
+
+                        <h3>Paramétres Sticodevam</h3>
+                        <br>
+
+                        <div class="btn-group-vertical">
+                        <a class="btn btn-outline-secondary" href="/naturec" role="button">Nature compte</a>    
+                        <a class="btn btn-outline-secondary" href="/codeop" role="button">Codes opérations</a>    
+                        <a class="btn btn-outline-secondary" href="/ctgav" role="button">Catégories d'avoir</a>    
+                        <a class="btn btn-outline-secondary" href="/adherent" role="button">Adhérents</a>    
+                        <a class="btn btn-outline-secondary" href="/typeadr" role="button">Types des adhérents</a>  
+                        </div>                    
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="intermidaires">
+
+                    <h3>Paramétres Intermediares</h3>
+                    <br>
+
+                  <div class="btn-group-vertical">
+                    <a class="btn btn-outline-secondary" href="#" role="button">Codes comptes</a>    
+                    <a class="btn btn-outline-secondary" href="#" role="button">Codes marché</a>    
+                    <a class="btn btn-outline-secondary" href="#" role="button">Codes titre</a>    
+                    <a class="btn btn-outline-secondary" href="#" role="button">Codes profit</a>    
+                    <a class="btn btn-outline-secondary" href="#" role="button">Codes règlement</a>      
+                  </div>              
+
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" id="alerts">
+
+                    <h3>Paramétres Alertes</h3>
+                    <br>
+
+                  <div class="btn-group-vertical">
+                    <a class="btn btn-outline-secondary" href="#" role="button">Paramétres alerts</a>    
+                    <a class="btn btn-outline-secondary" href="#" role="button">Lancement en différé des alerts</a>    
+                  </div>              
+
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" id="orders">
+
+                    <h3>Paramétres Orders</h3>
+                    <br>
+
+                  <div class="btn-group-vertical">
+                    <a class="btn btn-outline-secondary" href="#" role="button">Statuts des orders</a>    
+                    <a class="btn btn-outline-secondary" href="#" role="button">Types des prix des orders</a>    
+                    <a class="btn btn-outline-secondary" href="#" role="button">Types de validité des orders</a>      
+                  </div> 
+
+                  </div>
+                  <div role="tabpanel" class="tab-pane fade" id="evenement">
+
+                    <h3>Paramétres Evènements</h3>
+                    <br>
+
+                  <div class="btn-group-vertical">
+                    <a class="btn btn-outline-secondary" href="#" role="button">Evènements capitalistiques</a>    
+                    <a class="btn btn-outline-secondary" href="#" role="button">Evènements presse</a>    
+                    <a class="btn btn-outline-secondary" href="#" role="button">Consultation des dates et horaires de bourse</a>      
+                  </div>  
+                              
+                  </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

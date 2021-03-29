@@ -1,0 +1,34 @@
+     /**
+     * @Route("/api/files", name="mv_files")
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function getMvfiles()
+    {
+        $mouvements = new Finder();
+        $mouvements->files()->in('C:\xampp\htdocs\cmf\src\files\sticodevam\mv');
+
+        $response = new Response();
+
+
+        if ($mouvements->hasResults()) {
+            foreach ($mouvements as $file) {
+                
+                $contents[] =  $file->getContents();
+
+                //$absoluteFilePath = $file->getRealPath();
+                //$fileNameWithExtension = $file->getRelativePathname();
+            }
+            $first5 = substr($file->getContents(), 0, 5);
+            $contents[] =  $first5;
+
+        }
+
+    
+        $response->headers->set('Content-Type', 'application/json');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+
+        $response->setContent(json_encode($contents));
+        
+        return $response;
+
+    }

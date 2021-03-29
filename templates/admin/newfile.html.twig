@@ -1,0 +1,16 @@
+{% extends "baseadmin.html.twig" %}
+
+{% block title %} Chargement {% endblock %}
+
+{% block body %}
+
+    <a class="btn btn-link" href="{{ app.request.headers.get('referer') }}" role="button"><img src="/img/retour.png"></a>
+
+<div class="container">
+
+  {{ form_start(form) }}
+  {{ form_widget(form) }}
+  {{ form_end(form) }}
+
+  </div>
+{% endblock %}

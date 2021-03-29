@@ -1,0 +1,63 @@
+{# <div class="tab">
+  <button class="tablinks active" onclick="activeTab(event, 'prmGnrl')">Générale</button>
+  <button class="tablinks" onclick="activeTab(event, 'PrmStc')">Sticodevam</button>
+  <button class="tablinks" onclick="activeTab(event, 'prmItrm')">Intermediares</button>
+</div>
+
+
+<div id="prmGnrl" class="tabcontent">
+
+  <h3>Paramétres Généarales</h3>
+  <br>
+
+  <div class="btn-group-vertical">
+  <a class="btn btn-outline-secondary" href="#" role="button">Données généarales</a>    
+  <a class="btn btn-outline-secondary" href="#" role="button">Liste d'Intermediares</a>    
+  <a class="btn btn-outline-secondary" href="#" role="button">Groupes de cotation</a>    
+  <a class="btn btn-outline-secondary" href="#" role="button">test</a>    
+  <a class="btn btn-outline-secondary" href="#" role="button">test</a>    
+  <a class="btn btn-outline-secondary" href="#" role="button">test</a>  
+  </div>
+
+  <div class="btn-group-vertical">
+  <a class="btn btn-outline-secondary" href="#" role="button">test</a>    
+  <a class="btn btn-outline-secondary" href="#" role="button">test</a>    
+  <a class="btn btn-outline-secondary" href="#" role="button">test</a>    
+  <a class="btn btn-outline-secondary" href="#" role="button">test</a>    
+  <a class="btn btn-outline-secondary" href="#" role="button">test</a>    
+  <a class="btn btn-outline-secondary" href="#" role="button">test</a>    
+</div>
+
+</div>
+
+<div id="PrmStc" class="tabcontent">
+
+  <h3>Paramétres Sticodevam</h3>
+  <br>
+
+  <div class="btn-group-vertical">
+  <a class="btn btn-outline-secondary" href="/naturec" role="button">Nature compte</a>    
+  <a class="btn btn-outline-secondary" href="/codeop" role="button">Codes opérations</a>    
+  <a class="btn btn-outline-secondary" href="/ctgav" role="button">Catégories d'avoir</a>    
+  <a class="btn btn-outline-secondary" href="/adherent" role="button">Adhérents</a>    
+  <a class="btn btn-outline-secondary" href="/typeadr" role="button">Types des adhérents</a>  
+  </div>
+
+</div>
+
+<div id="prmItrm" class="tabcontent">
+
+  <h3>Paramétres Intermediares</h3>
+  <br>
+<div class="btn-group-vertical">
+  <a class="btn btn-outline-secondary" href="#" role="button">test</a>    
+  <a class="btn btn-outline-secondary" href="#" role="button">test</a>    
+  <a class="btn btn-outline-secondary" href="#" role="button">test</a>    
+  <a class="btn btn-outline-secondary" href="#" role="button">test</a>    
+  <a class="btn btn-outline-secondary" href="#" role="button">test</a>    
+  <a class="btn btn-outline-secondary" href="#" role="button">test</a>    
+</div>
+
+</div>  #}
+
+{#  <script src="/js/navtab.js"></script>  #} 

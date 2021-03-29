@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Code Operation{% endblock %}
+
+{% block body %}
+
+    <a class="btn btn-link" href="/ref" role="button"><img src="/img/retour.png"></a>
+
+<center>
+  <a class="btn" href="/codeop/new" role="button"><img src="/img/add-adr.png"></a>    
+</center>
+
+ {% if operation %}
+  <table id="operation" name="operation"class="table table-striped" style="padding:5px; border-spacing:5px;">
+   <thead>
+    <th> ID</th>
+    <th> Code Opération</th>
+    <th> Libellé Opération</th>
+    <th> Date de mise a jour</th>
+    <th> Actions</th>
+   </thead>
+    <tbody>
+     {% for op in operation %}
+         <tr>
+          <td class="pt-1 pb-1"> {{ op.id }}</td>
+          <td class="pt-1 pb-1"> {{ op.CodeOperation }}</td>
+          <td class="pt-1 pb-1"> {{ op.LibelleOperation }}</td>
+          <td class="pt-1 pb-1"> {% if op.datemaj %} {{ op.DateMaj|date("m/d/Y") }} {% endif %}</td>
+          <td class="pt-1 pb-1"> 
+            <a href="/codeop/edit/{{ op.id }}" class="btn btn-secondary btn-sm">Modifier</a>
+            <a href="#" class="btn btn-danger delete-codeop btn-sm" data-id="{{ op.id }}">Supprimer</a> 
+          </td>
+         </tr> 
+     {% endfor %}
+    </tbody>
+  </table>
+
+   <script src="/js/del/suppop.js"></script>
+
+  {% else %}
+  <div class="alert alert-dismissible alert-primary">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4 class="alert-heading">Tableau vide!</h4>
+  <p class="mb-0">pas des données d'Operations.</p>
+  </div> 
+  {% endif %}
+
+
+{% endblock %}

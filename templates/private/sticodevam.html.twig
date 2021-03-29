@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sticodevam{% endblock %}
+
+{% block body %}
+
+<div class="card bg-light mb-3" style="width: 30rem;">
+  <div class="card-header">Stock</div>
+  <div class="card-body">
+    <h6 class="card-title"><a href="/sticodevam">Actualiser <img src="/img/refresh.png" width="25" height="20"></a></h6>
+<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+  <button type="button" class="btn btn-secondary">Historique Stock</button>
+  <div class="btn-group" role="group">
+    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
+      <a class="dropdown-item" href="sticodevam/rech/stock/jr">Par jour</a>
+      <a class="dropdown-item" href="sticodevam/rech/stock/per">Par période</a>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+<div class="card bg-light mb-3" style="width: 30rem;">
+  <div class="card-header">Mouvement</div>
+  <div class="card-body">
+    <h6 class="card-title"><a href="/sticodevam">Actualiser <img src="/img/refresh.png" width="25" height="20"></a></h6>
+    <a class="btn btn-secondary" href="sticodevam/rech/mouvement" role="button">Historique Mouvement</a>    
+  </div>
+</div>
+
+{% endblock %}

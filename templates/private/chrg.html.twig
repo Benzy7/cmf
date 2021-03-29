@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chargement{% endblock %}
+
+{% block body %}
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="/css/sidetab.css">
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="vertical-tab" role="tabpanel">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="">
+                    <a href="#intermidaires" role="tab" data-toggle="tab">Intermediares</a>
+                    </li>
+                    <li role="presentation" class="">
+                    <a href="#sticodevam" role="tab" data-toggle="tab">Sticodevam</a>
+                    </li>
+                    <li role="presentation" class="">
+                    <a href="#bvmt" role="tab" data-toggle="tab">Bvmt</a>
+                    </li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content tabs">
+                    <div role="tabpanel" class="tab-pane fade in active" id="intermidaires">
+                        <h3>Intermediares</h3>
+                        <br>
+
+                          <div class="btn-group-vertical">
+                            <a class="btn btn-outline-secondary" href="#" role="button">Chargement des données Intermediares</a>    
+                            <a class="btn btn-outline-secondary" href="#" role="button">Renseignement sur les chargements Intermediares</a>  
+                          </div>
+
+                    </div>
+                    
+                    <div role="tabpanel" class="tab-pane fade" id="sticodevam">
+
+                        <h3>Sticodevam</h3>
+                        <br>
+
+                        <div class="btn-group-vertical">
+                          <a class="btn btn-outline-secondary" href="/file/new" role="button">Chargement des données Stock</a>    
+                          <a class="btn btn-outline-secondary" href="/cnslt/stk" role="button">Renseignement sur les chargements Stock</a>  
+                          <a class="btn btn-outline-secondary" href="/file/new" role="button">Chargement des données Mouvement</a>    
+                          <a class="btn btn-outline-secondary" href="/cnslt/mvt" role="button">Renseignement sur les chargements Mouvement</a>  
+                        </div>                    
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="bvmt">
+
+                    <h3>BVMT</h3>
+                    <br>
+
+                  <div class="btn-group-vertical">
+                          <a class="btn btn-outline-secondary" href="#" role="button">Chargement des données Transaction</a>    
+                          <a class="btn btn-outline-secondary" href="#" role="button">Renseignement sur les chargements Transaction</a>  
+                          <a class="btn btn-outline-secondary" href="#" role="button">Chargement des données Orders</a>    
+                          <a class="btn btn-outline-secondary" href="#" role="button">Renseignement sur les chargements Orders</a>  
+                          <a class="btn btn-outline-secondary" href="#" role="button">Calcul des Réfèrences des Orders</a>  
+                          <a class="btn btn-outline-secondary" href="#" role="button">Chargement des données Blocs</a>    
+                          <a class="btn btn-outline-secondary" href="#" role="button">Chargement des données Hors</a>    
+                  </div>              
+
+                  </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

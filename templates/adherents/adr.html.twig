@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Adhérents{% endblock %}
+
+{% block body %}
+
+    <a class="btn btn-link" href="/ref" role="button"><img src="/img/retour.png"></a>
+
+<center>
+  <a class="btn" href="/adherent/new" role="button"><img src="/img/add-adr.png"></a>    
+</center>
+
+ {% if adhrents %}
+  <table id="adhrents" name="adhrents" class="table table-striped fixed_header tablew" style="padding:5px; border-spacing:5px;">
+   <thead>
+    <th> ID</th>
+    <th> Code Adhérent</th>
+    <th> Nom Adhérent</th>
+    <th> Type Adhérent</th>
+    <th> Date de mise a jour</th>
+    <th> Actions</th>
+   </thead>
+    <tbody class="tbodyy">
+     {% for adhrent in adhrents %}
+         <tr>
+          <td class="pt-1 pb-1"> {{ adhrent.id }}</td>
+          <td class="pt-1 pb-1"> {{ adhrent.CodeAdherent }}</td>
+          <td class="pt-1 pb-1"> {{ adhrent.NomAdherent }}</td>
+          <td class="pt-1 pb-1"> {{ adhrent.TypeAdherent.CodeTypeAdherent }}</td>
+          <td class="pt-1 pb-1"> {% if adhrent.datemaj %} {{ adhrent.DateMaj|date("m/d/Y") }} {% endif %}</td>
+          <td class="pt-1 pb-1"> 
+            <a href="/adherent/edit/{{ adhrent.id }}" class="btn btn-secondary btn-sm">Modifier</a>
+            <a href="#" class="btn btn-danger delete-adhrent btn-sm" data-id="{{ adhrent.id }}">Supprimer</a> 
+          </td>
+         </tr> 
+     {% endfor %}
+    </tbody>
+  </table>
+
+   <script src="/js/del/suppadr.js"></script>
+
+  {% else %}
+  <div class="alert alert-dismissible alert-primary">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4 class="alert-heading">Tableau vide!</h4>
+  <p class="mb-0">pas des données d'adhrents.</p>
+  </div>  {% endif %}
+
+
+{% endblock %}
