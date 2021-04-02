@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Valeurs {% endblock %}
+
+{% block body %}
+
+    <a class="btn btn-link" href="/ref" role="button"><img src="/img/retour.png"></a>
+
+<center>
+  <a class="btn" href="/comptec/new" role="button"><img src="/img/add-adr.png"></a>    
+</center>
+
+ {% if comptes %}
+  <table id="comptes" name="comptes"class="table table-striped" style="padding:5px; border-spacing:5px;">
+   <thead>
+    <th></th>
+    <th> Code Compte</th>
+    <th> Libellé Compte</th>
+    <th> Date de mise a jour</th>
+    <th> Actions</th>
+   </thead>
+    <tbody>
+    {% set obs = 1 %}
+
+     {% for cpt in comptes %}
+         <tr>
+          <th class="pt-1 pb-1"> {{ obs }}</th>
+          <td class="pt-1 pb-1"> {{ cpt.CodeCompte }}</td>
+          <td class="pt-1 pb-1"> {{ cpt.LibelleCompte }}</td>
+          <td class="pt-1 pb-1"> {% if cpt.DateMaj %} {{ cpt.DateMaj|date("m/d/Y") }} {% endif %}</td>
+          <td class="pt-1 pb-1"> 
+            <a href="/comptec/edit/{{ cpt.id }}" class="btn btn-secondary btn-sm">Modifier</a>
+            <a href="#" class="btn btn-danger delete-cpt btn-sm" data-id="{{ cpt.id }}">Supprimer</a> 
+          </td>
+         </tr> 
+         {% set obs = obs + 1 %}
+     {% endfor %}
+    </tbody>
+  </table>
+
+   <script src="/js/del/suppcpt.js"></script>
+
+  {% else %}
+  <div class="alert alert-dismissible alert-primary">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4 class="alert-heading">Tableau vide!</h4>
+  <p class="mb-0">pas de Comptes.</p>
+  </div> 
+  {% endif %}
+
+{% endblock %}
+

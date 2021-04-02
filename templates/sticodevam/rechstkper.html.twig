@@ -78,22 +78,24 @@
 <center>
 <table id="dataTable" name="stocks" class="table-scroll small-first-col table table-striped fixed_header tablew">
    <thead class="table-primary">
-    <th class="t1">Adhérent</th>
-    <th class="t1">Nature Compte</th>
-    <th class="t1">Catégorie Avoir</th>
     <th class="t1">Date Bourse</th>
-    <th class="t1">Date Comptable</th>
-    <th class="t1">Quantité</th>
+    <th class="t1">Av ctts libres Tun</th>
+    <th class="t1">Total Adhérent</th>
+    <th class="t1">Total Sticodevam</th>
+    <th class="t1">Part(%) / Sticodevam</th>
+    <th class="t1">Delta / Veille</th>
+    <th class="t1">Delta / Début période</th>
    </thead>
     <tbody class="body-half-screen">
      {% for stk in stocks %}
          <tr name="{{ stk.StockExchangeDate|date("m/d/Y") }}{{ stk.Quantity }}">
-          <td class="pt-1 pb-1" id="{{ stk.id }}"> {{ stk.CodeAdherent.CodeAdherent }}</td>
-          <td class="pt-1 pb-1" id="{{ stk.id }}"> {{ stk.NatureCompte.LibelleNatureCompte }}</td>
-          <td class="pt-1 pb-1" id="{{ stk.id }}"> {{ stk.CategorieAvoir.LibelleCategorieAvoir }}</td>
-          <td class="pt-1 pb-1" id="{{ stk.id }}"> {{ stk.StockExchangeDate|date("m/d/Y") }}</td>
-          <td class="pt-1 pb-1" id="{{ stk.id }}"> {{ stk.AccountingDate|date("m/d/Y") }}</td>
+          <th class="pt-1 pb-1" id="{{ stk.id }}"> {{ stk.StockExchangeDate|date("m/d/Y") }}</th>
           <td class="pt-1 pb-1" id="{{ stk.id }}"> {{ stk.Quantity|number_format }}</td>
+          <td class="pt-1 pb-1" id="{{ stk.id }}"> ? </td>
+          <td class="pt-1 pb-1" id="{{ stk.id }}"> ? </td>
+          <td class="pt-1 pb-1" id="{{ stk.id }}"> ? </td>
+          <td class="pt-1 pb-1" id="{{ stk.id }}"> ? </td>
+          <td class="pt-1 pb-1" id="{{ stk.id }}"> ? </td>
          </tr> 
      {% endfor %}
     </tbody>

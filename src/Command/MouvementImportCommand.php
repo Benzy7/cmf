@@ -8,6 +8,7 @@ use App\Entity\Operation;
 use App\Entity\CodeNature;
 use App\Entity\CategorieAvoir;
 use App\Entity\Adherent;
+use App\Entity\Valeur;
 
 use App\Entity\StatMvt;
 
@@ -57,9 +58,12 @@ class MouvementImportCommand extends Command
         $io->title("en cours d'insérer les données(Mouvement)");
         
         $reader = new Finder();
-        $reader->files()->notName('*.sc')->notName('*.er')->in('C:\files\sticodevam\mvt');            
-        
+        $reader->files()->notName('*.sc')->notName('*.er')->in('C:\files\sticodevam\mvt');         
+
+        $io->progressStart(count($reader));
+
         foreach ($reader as $file){
+
 
             $error1 = false; //taille
             $error2 = false; //null
@@ -80,7 +84,7 @@ class MouvementImportCommand extends Command
             $nom = $file->getFilename();
 
             while (($line = fgets($handle)) !== false) {
-        
+
             $lv = false;
             $lignes++;
 
@@ -117,7 +121,7 @@ class MouvementImportCommand extends Command
                 $erreur = true;
                 $error2 = true;
                 if($first_error2 === false){
-                    $ner .= "$lignes"; 
+                    $ner .= "(Code Operation) $lignes"; 
                     $first_error2 = true;
                 }
                 else{
@@ -126,6 +130,17 @@ class MouvementImportCommand extends Command
             }
 
             $isin = substr($line, 2, 12);
+            $valeurIsin = substr($line, 5, 10);
+            $codeValeur = new Valeur();
+            $codeValeur = $this->container->get('doctrine')->getRepository(Valeur::class)
+            ->findOneBy(['CodeValeur' => $valeurIsin]);
+            if(!($codeValeur)){
+                $newValeur = (( new Valeur()))->setCodeValeur($valeurIsin);
+                $this->em->persist($newValeur);
+
+                $codeValeur = $newValeur;
+            }
+
 
             $dateB = substr($line, 14, 8);
             $dateC = substr($line, 22, 8);
@@ -139,7 +154,7 @@ class MouvementImportCommand extends Command
                 $erreur = true;
                 $error2 = true;
                 if($first_error2 === false){
-                    $ner .= "$lignes"; 
+                    $ner .= "(Code Adherent livreur) $lignes"; 
                     $first_error2 = true;
                 }
                 else{
@@ -156,7 +171,7 @@ class MouvementImportCommand extends Command
                 $erreur = true;
                 $error2 = true;
                 if($first_error2 === false){
-                    $ner .= "$lignes"; 
+                    $ner .= "(Code nature livreur)$lignes"; 
                     $first_error2 = true;
                 }
                 else{
@@ -173,7 +188,7 @@ class MouvementImportCommand extends Command
                 $erreur = true;
                 $error2 = true;
                 if($first_error2 === false){
-                    $ner .= "$lignes"; 
+                    $ner .= "(Catégorie Avoir livreur) $lignes"; 
                     $first_error2 = true;
                 }
                 else{
@@ -190,7 +205,7 @@ class MouvementImportCommand extends Command
                 $erreur = true;
                 $error2 = true;
                 if($first_error2 === false){
-                    $ner .= "$lignes"; 
+                    $ner .= "(Code Adherent livré) $lignes"; 
                     $first_error2 = true;
                 }
                 else{
@@ -207,7 +222,7 @@ class MouvementImportCommand extends Command
                 $erreur = true;
                 $error2 = true;
                 if($first_error2 === false){
-                    $ner .= "$lignes"; 
+                    $ner .= "(Code Nature livré) $lignes"; 
                     $first_error2 = true;
                 }
                 else{
@@ -224,7 +239,7 @@ class MouvementImportCommand extends Command
                 $erreur = true;
                 $error2 = true;
                 if($first_error2 === false){
-                    $ner .= "$lignes"; 
+                    $ner .= "(Catégorie Avoir livré) $lignes"; 
                     $first_error2 = true;
                 }
                 else{
@@ -238,7 +253,7 @@ class MouvementImportCommand extends Command
             if( $lv === false){
                 $mvfile = (new Mouvement())
                     ->setCodeOperation($codeOperation)
-                    ->setIsin($isin)
+                    ->setCodeValeur($codeValeur)
 
                     ->setStockExchangeDate(\DateTime::createFromFormat('dmY', $dateB))
                     ->setAccounttingDate(\DateTime::createFromFormat('dmY', $dateC))
@@ -254,9 +269,15 @@ class MouvementImportCommand extends Command
                     ->setTitlesNumber($nbTitres)
                     ->setAmount($montant)
                 ; 
-                $this->em->persist($mvfile);
+                
+                //if($erreur === false){
+                    $this->em->persist($mvfile);
+                //    }
+
                 }
             }
+            $io->progressAdvance();
+
         }  
     }
         if($erreur === false){
@@ -309,6 +330,8 @@ class MouvementImportCommand extends Command
         }
 
     }
+
+        $io->progressFinish();
         $io->success('les donné sont inseré avec succés');
 
         return Command::SUCCESS; 

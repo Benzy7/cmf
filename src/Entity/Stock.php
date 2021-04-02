@@ -18,11 +18,6 @@ class Stock
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=12, nullable=true)
-     */
-    private $Isin;
-
-    /**
      * @ORM\Column(type="string", length=10, nullable=true)
      */
     private $Quantity;
@@ -60,21 +55,15 @@ class Stock
      */
     private $CategorieAvoir;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Valeur::class, inversedBy="stocks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $CodeValeur;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIsin(): ?string
-    {
-        return $this->Isin;
-    }
-
-    public function setIsin(?string $Isin): self
-    {
-        $this->Isin = $Isin;
-
-        return $this;
     }
 
     public function getQuantity(): ?string
@@ -157,6 +146,18 @@ class Stock
     public function setCategorieAvoir(?CategorieAvoir $CategorieAvoir): self
     {
         $this->CategorieAvoir = $CategorieAvoir;
+
+        return $this;
+    }
+
+    public function getCodeValeur(): ?Valeur
+    {
+        return $this->CodeValeur;
+    }
+
+    public function setCodeValeur(?Valeur $CodeValeur): self
+    {
+        $this->CodeValeur = $CodeValeur;
 
         return $this;
     }

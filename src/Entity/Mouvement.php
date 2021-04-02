@@ -19,11 +19,6 @@ class Mouvement
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=12, nullable=true)
-     */
-    private $Isin;
-
-    /**
      * @ORM\Column(type="date", nullable=true)
      */
     private $StockExchangeDate;
@@ -85,21 +80,15 @@ class Mouvement
      */
     private $Amount;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Valeur::class, inversedBy="mouvements")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $CodeValeur;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIsin(): ?string
-    {
-        return $this->Isin;
-    }
-
-    public function setIsin(?string $Isin): self
-    {
-        $this->Isin = $Isin;
-
-        return $this;
     }
 
     public function getStockExchangeDate(): ?\DateTimeInterface
@@ -230,6 +219,18 @@ class Mouvement
     public function setCategorieAvoirLivre(?CategorieAvoir $CategorieAvoirLivre): self
     {
         $this->CategorieAvoirLivre = $CategorieAvoirLivre;
+
+        return $this;
+    }
+
+    public function getCodeValeur(): ?Valeur
+    {
+        return $this->CodeValeur;
+    }
+
+    public function setCodeValeur(?Valeur $CodeValeur): self
+    {
+        $this->CodeValeur = $CodeValeur;
 
         return $this;
     }

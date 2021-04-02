@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Marché {% endblock %}
+
+{% block body %}
+
+    <a class="btn btn-link" href="/ref" role="button"><img src="/img/retour.png"></a>
+
+<center>
+  <a class="btn" href="/marchec/new" role="button"><img src="/img/add-adr.png"></a>    
+</center>
+
+ {% if marches %}
+  <table id="marches" name="marches" class="table table-striped" style="padding:5px; border-spacing:5px;">
+   <thead>
+    <th></th>
+    <th> Code Marché</th>
+    <th> Libellé Marché</th>
+    <th> Date de mise a jour</th>
+    <th> Actions</th>
+   </thead>
+    <tbody>
+    {% set obs = 1 %}
+
+     {% for cpt in marches %}
+         <tr>
+          <th class="pt-1 pb-1"> {{ obs }}</th>
+          <td class="pt-1 pb-1"> {{ cpt.CodeMarche }}</td>
+          <td class="pt-1 pb-1"> {{ cpt.LibelleMarche }}</td>
+          <td class="pt-1 pb-1"> {% if cpt.DateMaj %} {{ cpt.DateMaj|date("m/d/Y") }} {% endif %}</td>
+          <td class="pt-1 pb-1"> 
+            <a href="/marchec/edit/{{ cpt.id }}" class="btn btn-secondary btn-sm">Modifier</a>
+            <a href="#" class="btn btn-danger delete-cpt btn-sm" data-id="{{ cpt.id }}">Supprimer</a> 
+          </td>
+         </tr> 
+         {% set obs = obs + 1 %}
+     {% endfor %}
+    </tbody>
+  </table>
+
+   <script src="/js/del/suppmrch.js"></script>
+
+  {% else %}
+  <div class="alert alert-dismissible alert-primary">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4 class="alert-heading">Tableau vide!</h4>
+  <p class="mb-0">pas de Codes marché.</p>
+  </div> 
+  {% endif %}
+
+{% endblock %}
+

@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Valeurs {% endblock %}
+
+{% block body %}
+
+    <a class="btn btn-link" href="/ref" role="button"><img src="/img/retour.png"></a>
+
+<center>
+  <a class="btn" href="/valeur/new" role="button"><img src="/img/add-adr.png"></a>    
+</center>
+
+ {% if valeurs %}
+  <table id="valeurs" name="valeurs"class="table table-striped" style="padding:5px; border-spacing:5px;">
+   <thead>
+    <th></th>
+    <th> Code Valeur</th>
+    <th> Libellé Valeur</th>
+    <th> Mnémonique</th>
+    <th> Type Valeur</th>    
+    <th> Nb Titres </th>
+    <th> Nb Cod </th>
+    <th> Groupe Cotation</th>
+    <th> Super Secteur</th>
+    <th> Actions</th>
+   </thead>
+    <tbody>
+    {% set obs = 1 %}
+
+     {% for val in valeurs %}
+         <tr>
+          <th class="pt-1 pb-1"> {{ obs }}</th>
+          <td class="pt-1 pb-1"> {{ val.CodeValeur }}</td>
+          <td class="pt-1 pb-1"> {{ val.LibelleValeur }}</td>
+          <td class="pt-1 pb-1"> {{ val.Mnemonique }}</td>
+          <td class="pt-1 pb-1"> {{ val.TypeValeur }}</td>
+          <td class="pt-1 pb-1"> {{ val.NbTitresadmisBourse }}</td>
+          <td class="pt-1 pb-1"> {{ val.NbCodFlott }}</td>
+          <td class="pt-1 pb-1"> {{ val.GroupCotation }}</td>
+          <td class="pt-1 pb-1"> {{ val.SuperSecteur }}</td>
+          <td class="pt-1 pb-1"> 
+            <a href="/valeur/edit/{{ val.id }}" class="btn btn-secondary btn-sm">Modifier</a>
+            <a href="#" class="btn btn-danger delete-val btn-sm" data-id="{{ val.id }}">Supprimer</a> 
+          </td>
+         </tr> 
+         {% set obs = obs + 1 %}
+     {% endfor %}
+    </tbody>
+  </table>
+
+   <script src="/js/del/suppval.js"></script>
+
+  {% else %}
+  <div class="alert alert-dismissible alert-primary">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4 class="alert-heading">Tableau vide!</h4>
+  <p class="mb-0">pas des données de valeurs.</p>
+  </div> 
+  {% endif %}
+
+{% endblock %}

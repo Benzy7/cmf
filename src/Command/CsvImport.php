@@ -55,7 +55,7 @@ class CsvImport extends Command
     foreach($supplierFiles as $supplierFile){
 
         /** @var $Tfile existingTfile */
-        if($existingTfile = $tfileRep->findOneBy(['title' => $supplierFile['title']])){
+        if($existingTfile = $tfileRep->findOneBy(['title' => $supplierFile['test']])){
 
             $existingTfile->setBody($supplierFile['body']);
             $this->em->persist($existingTfile);
@@ -87,6 +87,21 @@ class CsvImport extends Command
 
     public function getCsvRowsAsArrays($processDate){
         $inputFile = $this->projectDir . '/public/csv/' . $processDate . '.csv';
+
+        $row = 1;
+        if (($handle = fopen($inputFile, "r")) !== FALSE) {
+            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                $num = count($data);
+                //echo "<p> $num fields in line $row: <br /></p>\n";
+                $row++;
+                for ($c=0; $c < $num; $c++) {
+                    echo $data[$c] . "<br />\n";
+    dd($row);
+                }
+            }
+    
+            fclose($handle);
+        }
         $decoder = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
         return $decoder->decode(file_get_contents($inputFile), 'csv', array(CsvEncoder::DELIMITER_KEY => ';'));
     

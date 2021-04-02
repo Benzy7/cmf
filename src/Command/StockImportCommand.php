@@ -5,6 +5,7 @@ namespace App\Command;
 use App\Entity\Stock;
 
 use App\Entity\Operation;
+use App\Entity\Valeur;
 use App\Entity\CodeNature;
 use App\Entity\CategorieAvoir;
 use App\Entity\Adherent;
@@ -113,7 +114,7 @@ class StockImportCommand extends Command
                 $erreur = true;
                 $error2 = true;
                 if($first_error2 === false){
-                    $ner .= "$lignes"; 
+                    $ner .= "(Code Adherent) $lignes"; 
                     $first_error2 = true;
                 }
                 else{
@@ -122,6 +123,17 @@ class StockImportCommand extends Command
             }
 
             $isin = substr($line, 3, 12);
+            $valeurIsin = substr($line, 5, 10);
+            $codeValeur = new Valeur();
+            $codeValeur = $this->container->get('doctrine')->getRepository(Valeur::class)
+            ->findOneBy(['CodeValeur' => $valeurIsin]);
+            if(!($codeValeur)){
+                $newValeur = (( new Valeur()))->setCodeValeur($valeurIsin);
+                $this->em->persist($newValeur);
+                //$this->em->flush();
+
+                $codeValeur = $newValeur;
+            }
 
             $cnc = substr($line, 15, 2);
             $codeNature = new CodeNature();
@@ -132,7 +144,7 @@ class StockImportCommand extends Command
                 $erreur = true;
                 $error2 = true;
                 if($first_error2 === false){
-                    $ner .= "$lignes"; 
+                    $ner .= "(Code Nature) $lignes"; 
                     $first_error2 = true;
                 }
                 else{
@@ -149,7 +161,7 @@ class StockImportCommand extends Command
                 $erreur = true;
                 $error2 = true;
                 if($first_error2 === false){
-                    $ner .= "$lignes"; 
+                    $ner .= "(Catégorie Avoir) $lignes"; 
                     $first_error2 = true;
                 }
                 else{
@@ -165,7 +177,7 @@ class StockImportCommand extends Command
             if( $lv === false){
                 $stkfile = (new Stock())
                     ->setCodeAdherent($codeAdherent)
-                    ->setIsin($isin)
+                    ->setCodeValeur($codeValeur)
                     ->setNatureCompte($codeNature)
                     ->setCategorieAvoir($catAv)
                     ->setQuantity($quantite)
