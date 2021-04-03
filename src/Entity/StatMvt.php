@@ -98,7 +98,7 @@ class StatMvt
         return $this->DateBourse;
     }
 
-    public function setDateBourse(\DateTimeInterface $DateBourse): self
+    public function setDateBourse(?\DateTimeInterface $DateBourse): self
     {
         $this->DateBourse = $DateBourse;
 

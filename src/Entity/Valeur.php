@@ -69,10 +69,16 @@ class Valeur
      */
     private $stocks;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Intermidiaire::class, mappedBy="Valeur")
+     */
+    private $intermidiaires;
+
     public function __construct()
     {
         $this->mouvements = new ArrayCollection();
         $this->stocks = new ArrayCollection();
+        $this->intermidiaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -230,6 +236,36 @@ class Valeur
             // set the owning side to null (unless already changed)
             if ($stock->getCodeValeur() === $this) {
                 $stock->setCodeValeur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Intermidiaire[]
+     */
+    public function getIntermidiaires(): Collection
+    {
+        return $this->intermidiaires;
+    }
+
+    public function addIntermidiaire(Intermidiaire $intermidiaire): self
+    {
+        if (!$this->intermidiaires->contains($intermidiaire)) {
+            $this->intermidiaires[] = $intermidiaire;
+            $intermidiaire->setValeur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIntermidiaire(Intermidiaire $intermidiaire): self
+    {
+        if ($this->intermidiaires->removeElement($intermidiaire)) {
+            // set the owning side to null (unless already changed)
+            if ($intermidiaire->getValeur() === $this) {
+                $intermidiaire->setValeur(null);
             }
         }
 

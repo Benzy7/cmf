@@ -60,6 +60,8 @@ class StockImportCommand extends Command
         $reader = new Finder();
         $reader->files()->notName('*.sc')->notName('*.er')->in('C:\files\sticodevam\stock');            
         
+        $io->progressStart(count($reader));
+
         foreach ($reader as $file){
 
             $error1 = false; //taille
@@ -123,7 +125,8 @@ class StockImportCommand extends Command
             }
 
             $isin = substr($line, 3, 12);
-            $valeurIsin = substr($line, 5, 10);
+            $valeurIsin = substr($line, 5, 9);
+            $valeurIsin = intval($valeurIsin);
             $codeValeur = new Valeur();
             $codeValeur = $this->container->get('doctrine')->getRepository(Valeur::class)
             ->findOneBy(['CodeValeur' => $valeurIsin]);
@@ -189,7 +192,9 @@ class StockImportCommand extends Command
                 $this->em->persist($stkfile);
                 }
 
-            }            
+            }
+            $io->progressAdvance();
+            
           }
         }
 
@@ -219,11 +224,11 @@ class StockImportCommand extends Command
                 $rm .= "Erreur(null) à la lignes : $ner; ";
             }
 
-            $statMv = (new StatStock())
+        $statMv = (new StatStock())
             ->setNomFicher($nom)
             ->setDateChrg(new \DateTime('now'))
             ->setHeureChrg(new \DateTime('now'))
-            ->setDateBourse(\DateTime::createFromFormat('dmY', $dateB))
+            ->setDateBourse(null)
             ->setEtat("Erreur")
             ->setRemarqueMotif($rm)
             ->setNbLignes($lignes)
@@ -242,6 +247,7 @@ class StockImportCommand extends Command
 
         $this->em->flush();
 
+        $io->progressFinish();
         $io->success('les donné sont inseré avec succés');
 
         return Command::SUCCESS;

@@ -130,7 +130,8 @@ class MouvementImportCommand extends Command
             }
 
             $isin = substr($line, 2, 12);
-            $valeurIsin = substr($line, 5, 10);
+            $valeurIsin = substr($line, 4, 9);
+            $valeurIsin = intval($valeurIsin);
             $codeValeur = new Valeur();
             $codeValeur = $this->container->get('doctrine')->getRepository(Valeur::class)
             ->findOneBy(['CodeValeur' => $valeurIsin]);
@@ -313,6 +314,7 @@ class MouvementImportCommand extends Command
             ->setNomFicher($nom)
             ->setDateChrg(new \DateTime('now'))
             ->setHeureChrg(new \DateTime('now'))
+            ->setDateBourse(null)
             ->setEtat("Erreur")
             ->setRemarqueMotif($rm)
             ->setNbLignes($lignes)

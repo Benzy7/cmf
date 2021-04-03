@@ -47,6 +47,17 @@ class StatIntermidiaire
      */
     private $RemarqueMotif;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $NbLignes;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Adherent::class, inversedBy="statIntermidiaires")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $NomAdherent;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +131,30 @@ class StatIntermidiaire
     public function setRemarqueMotif(?string $RemarqueMotif): self
     {
         $this->RemarqueMotif = $RemarqueMotif;
+
+        return $this;
+    }
+
+    public function getNbLignes(): ?int
+    {
+        return $this->NbLignes;
+    }
+
+    public function setNbLignes(int $NbLignes): self
+    {
+        $this->NbLignes = $NbLignes;
+
+        return $this;
+    }
+
+    public function getNomAdherent(): ?Adherent
+    {
+        return $this->NomAdherent;
+    }
+
+    public function setNomAdherent(?Adherent $NomAdherent): self
+    {
+        $this->NomAdherent = $NomAdherent;
 
         return $this;
     }

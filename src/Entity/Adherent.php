@@ -55,11 +55,23 @@ class Adherent
      */
     private $stocks;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Intermidiaire::class, mappedBy="CodeAdrIntrm")
+     */
+    private $intermidiaires;
+
+    /**
+     * @ORM\OneToMany(targetEntity=StatIntermidiaire::class, mappedBy="NomAdherent")
+     */
+    private $statIntermidiaires;
+
     public function __construct()
     {
         $this->mouvements = new ArrayCollection();
         $this->mouvementl = new ArrayCollection();
         $this->stocks = new ArrayCollection();
+        $this->intermidiaires = new ArrayCollection();
+        $this->statIntermidiaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -199,6 +211,66 @@ class Adherent
             // set the owning side to null (unless already changed)
             if ($stock->getCodeAdherent() === $this) {
                 $stock->setCodeAdherent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Intermidiaire[]
+     */
+    public function getIntermidiaires(): Collection
+    {
+        return $this->intermidiaires;
+    }
+
+    public function addIntermidiaire(Intermidiaire $intermidiaire): self
+    {
+        if (!$this->intermidiaires->contains($intermidiaire)) {
+            $this->intermidiaires[] = $intermidiaire;
+            $intermidiaire->setCodeAdrIntrm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIntermidiaire(Intermidiaire $intermidiaire): self
+    {
+        if ($this->intermidiaires->removeElement($intermidiaire)) {
+            // set the owning side to null (unless already changed)
+            if ($intermidiaire->getCodeAdrIntrm() === $this) {
+                $intermidiaire->setCodeAdrIntrm(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|StatIntermidiaire[]
+     */
+    public function getStatIntermidiaires(): Collection
+    {
+        return $this->statIntermidiaires;
+    }
+
+    public function addStatIntermidiaire(StatIntermidiaire $statIntermidiaire): self
+    {
+        if (!$this->statIntermidiaires->contains($statIntermidiaire)) {
+            $this->statIntermidiaires[] = $statIntermidiaire;
+            $statIntermidiaire->setNomAdherent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStatIntermidiaire(StatIntermidiaire $statIntermidiaire): self
+    {
+        if ($this->statIntermidiaires->removeElement($statIntermidiaire)) {
+            // set the owning side to null (unless already changed)
+            if ($statIntermidiaire->getNomAdherent() === $this) {
+                $statIntermidiaire->setNomAdherent(null);
             }
         }
 

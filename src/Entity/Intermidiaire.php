@@ -33,27 +33,30 @@ class Intermidiaire
     private $Sens;
 
     /**
-     * @ORM\Column(type="string", length=6, nullable=true)
-     */
-    private $CodeIsin;
-
-    /**
-     * @ORM\Column(type="string", length=100, nullable=true)
+     * @ORM\ManyToOne(targetEntity=Valeur::class, inversedBy="intermidiaires")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $Valeur;
 
     /**
-     * @ORM\Column(type="string", length=2, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
-    private $Caracteristique;
+    private $LibelleValeur;
 
     /**
-     * @ORM\Column(type="string", length=3, nullable=true)
+     * @ORM\Column(type="string", length=2, nullable=true)
+     */
+    private $Caract;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=CodeMarche::class, inversedBy="intermidiaires")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $Marche;
 
     /**
-     * @ORM\Column(type="string", length=2, nullable=true)
+     * @ORM\ManyToOne(targetEntity=CodeProfit::class, inversedBy="intermidiaires")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $Profit;
 
@@ -63,37 +66,39 @@ class Intermidiaire
     private $Client;
 
     /**
-     * @ORM\Column(type="string", length=2, nullable=true)
+     * @ORM\ManyToOne(targetEntity=CodeCompteIntrm::class, inversedBy="intermidiaires")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $TypeCompte;
 
     /**
-     * @ORM\Column(type="string", length=2, nullable=true)
+     * @ORM\Column(type="string", length=2)
      */
     private $Pays;
 
     /**
-     * @ORM\Column(type="string", length=10, nullable=true)
+     * @ORM\Column(type="string", length=10)
      */
-    private $Qte;
+    private $Quantite;
 
     /**
-     * @ORM\Column(type="string", length=3, nullable=true)
+     * @ORM\Column(type="string", length=7)
      */
     private $Cours;
 
     /**
-     * @ORM\Column(type="string", length=3, nullable=true)
+     * @ORM\ManyToOne(targetEntity=Adherent::class, inversedBy="intermidiaires")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $CodeIntermidiaire;
+    private $CodeAdrIntrm;
 
     /**
-     * @ORM\Column(type="string", length=1, nullable=true)
+     * @ORM\ManyToOne(targetEntity=ReglementIntrm::class, inversedBy="intermidiaires")
      */
     private $Reglement;
 
     /**
-     * @ORM\Column(type="string", length=10, nullable=true)
+     * @ORM\Column(type="string", length=10)
      */
     private $Commission;
 
@@ -138,60 +143,60 @@ class Intermidiaire
         return $this;
     }
 
-    public function getCodeIsin(): ?string
-    {
-        return $this->CodeIsin;
-    }
-
-    public function setCodeIsin(?string $CodeIsin): self
-    {
-        $this->CodeIsin = $CodeIsin;
-
-        return $this;
-    }
-
-    public function getValeur(): ?string
+    public function getValeur(): ?Valeur
     {
         return $this->Valeur;
     }
 
-    public function setValeur(?string $Valeur): self
+    public function setValeur(?Valeur $Valeur): self
     {
         $this->Valeur = $Valeur;
 
         return $this;
     }
 
-    public function getCaracteristique(): ?string
+    public function getLibelleValeur(): ?string
     {
-        return $this->Caracteristique;
+        return $this->LibelleValeur;
     }
 
-    public function setCaracteristique(?string $Caracteristique): self
+    public function setLibelleValeur(?string $LibelleValeur): self
     {
-        $this->Caracteristique = $Caracteristique;
+        $this->LibelleValeur = $LibelleValeur;
 
         return $this;
     }
 
-    public function getMarche(): ?string
+    public function getCaract(): ?string
+    {
+        return $this->Caract;
+    }
+
+    public function setCaract(?string $Caract): self
+    {
+        $this->Caract = $Caract;
+
+        return $this;
+    }
+
+    public function getMarche(): ?CodeMarche
     {
         return $this->Marche;
     }
 
-    public function setMarche(?string $Marche): self
+    public function setMarche(?CodeMarche $Marche): self
     {
         $this->Marche = $Marche;
 
         return $this;
     }
 
-    public function getProfit(): ?string
+    public function getProfit(): ?CodeProfit
     {
         return $this->Profit;
     }
 
-    public function setProfit(?string $Profit): self
+    public function setProfit(?CodeProfit $Profit): self
     {
         $this->Profit = $Profit;
 
@@ -210,12 +215,12 @@ class Intermidiaire
         return $this;
     }
 
-    public function getTypeCompte(): ?string
+    public function getTypeCompte(): ?CodeCompteIntrm
     {
         return $this->TypeCompte;
     }
 
-    public function setTypeCompte(?string $TypeCompte): self
+    public function setTypeCompte(?CodeCompteIntrm $TypeCompte): self
     {
         $this->TypeCompte = $TypeCompte;
 
@@ -227,21 +232,21 @@ class Intermidiaire
         return $this->Pays;
     }
 
-    public function setPays(?string $Pays): self
+    public function setPays(string $Pays): self
     {
         $this->Pays = $Pays;
 
         return $this;
     }
 
-    public function getQte(): ?string
+    public function getQuantite(): ?string
     {
-        return $this->Qte;
+        return $this->Quantite;
     }
 
-    public function setQte(?string $Qte): self
+    public function setQuantite(string $Quantite): self
     {
-        $this->Qte = $Qte;
+        $this->Quantite = $Quantite;
 
         return $this;
     }
@@ -251,31 +256,31 @@ class Intermidiaire
         return $this->Cours;
     }
 
-    public function setCours(?string $Cours): self
+    public function setCours(string $Cours): self
     {
         $this->Cours = $Cours;
 
         return $this;
     }
 
-    public function getCodeIntermidiaire(): ?string
+    public function getCodeAdrIntrm(): ?Adherent
     {
-        return $this->CodeIntermidiaire;
+        return $this->CodeAdrIntrm;
     }
 
-    public function setCodeIntermidiaire(?string $CodeIntermidiaire): self
+    public function setCodeAdrIntrm(?Adherent $CodeAdrIntrm): self
     {
-        $this->CodeIntermidiaire = $CodeIntermidiaire;
+        $this->CodeAdrIntrm = $CodeAdrIntrm;
 
         return $this;
     }
 
-    public function getReglement(): ?string
+    public function getReglement(): ?ReglementIntrm
     {
         return $this->Reglement;
     }
 
-    public function setReglement(?string $Reglement): self
+    public function setReglement(?ReglementIntrm $Reglement): self
     {
         $this->Reglement = $Reglement;
 
@@ -287,10 +292,11 @@ class Intermidiaire
         return $this->Commission;
     }
 
-    public function setCommission(?string $Commission): self
+    public function setCommission(string $Commission): self
     {
         $this->Commission = $Commission;
 
         return $this;
     }
+
 }
