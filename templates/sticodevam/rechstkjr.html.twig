@@ -10,6 +10,10 @@
   text-align: left;
 }
  #}
+
+.t1 { 
+  width:500px;
+}
 </style>
 
    <a class="btn btn-link" href="/sticodevam" role="button"><img src="/img/retour.png"></a>
@@ -22,10 +26,10 @@
 <center>
  <table>
     <tr>
-    <td>{{ form_label(rech_form_jr.Dateadeb) }}</td>
-    <td>{{ form_widget(rech_form_jr.Dateadeb) }}</td>
     <td>{{ form_label(rech_form_jr.Datebdeb) }}</td>
     <td>{{ form_widget(rech_form_jr.Datebdeb) }}</td>  
+    <td>{{ form_label(rech_form_jr.Dateadeb) }}</td>
+    <td>{{ form_widget(rech_form_jr.Dateadeb) }}</td>
 {#         {% set dateB = date(rech_form_jr.Dateadeb)|date_modify("+3 days")|date("d/m/Y")%} #}    
 {#     <td>{{ form_widget(rech_form_jr.Datebdeb, {'value' : rech_form_jr.Dateadeb }) }}</td> #}    
     </tr>
@@ -50,8 +54,8 @@
     <tr>
     <td>{{ form_label(rech_form_jr.TypeAdherents) }}</td>     
     <td>{{ form_widget(rech_form_jr.TypeAdherents) }}</td>
-    <td>{{ form_label(rech_form_jr.Valeurs) }}</td>     
-    <td>{{ form_widget(rech_form_jr.Valeurs) }}</td>
+    <td>{{ form_label(rech_form_jr.TypeValeurs) }}</td>     
+    <td>{{ form_widget(rech_form_jr.TypeValeurs) }}</td>
     </tr>
 
 </table>
@@ -62,7 +66,7 @@
 
 <br>
 
-{% if stocks %}
+{% if stocksA %}
 <div id="stcItems" class="container">
 
 <ul class="nav nav-tabs">
@@ -79,99 +83,103 @@
 <div id="myTabContent" class="tab-content">
 
   <div class="tab-pane fade active show" id="tabAd">
-<br>
-
+{# <br>
+ #}
 <center>
-<table id="dataTable" name="stocks" class="table-scroll small-first-col table table-striped fixed_header tablew">
+<table id="dataTable" name="stocks" class="table table-hover table-scroll small-first-col table table-striped fixed_header">
    <thead class="table-primary" style="font-size:0.8em">
-    <th class="t1">Nom Adhérent</th>
+    <th class="pt-1 pb-1 col-1">Adhérent</th>
+    {% for cat in catAv %}
+     <th class="pt-1 pb-1">{{ cat.LibelleCategorieAvoir }}</th>
+    {% endfor %}
 
-     {% for cat in catAv %}
-     <th>{{ cat.LibelleCategorieAvoir }}</th>
-     {% endfor %}
-
-    <th class="t1">Total</th>
-    <th class="t1">Part(%)</th>
-    <th class="t1">Part cumutée(%)</th>
+    <th class="pt-1 pb-1">Total</th>
+    <th class="pt-1 pb-1">Part(%)</th>
+    <th class="pt-1 pb-1">Part cumutée(%)</th>
    </thead>
     <tbody class="body-half-screen">
-     {% for stk in stocks %}
-         <tr>
-          <td class="pt-1 pb-1" id="{{ stk.id }}"> {{ stk.CodeAdherent.NomAdherent }}</td>
-
-          {% for cat in catAv %}
-          {% if stk.CategorieAvoir == cat %}
-            <td class="pt-1 pb-1">{{ stk.Quantity|number_format }}</td>
-          {% else %}
-            <td class="pt-1 pb-1"> - </td>
-          {% endif %}
-          {% endfor %}
-
-          <td class="pt-1 pb-1" id="{{ stk.id }}"> {{ stk.Quantity|number_format }}</td>
-          <td class="pt-1 pb-1">?</td>
-          <td class="pt-1 pb-1">?</td>
-         </tr> 
-     {% endfor %}
-    </tbody>
-    <tr>
-     <th class="pt-1 pb-1">Total</th>
-    {% for cat in catAv %}
-     <td class="pt-1 pb-1">111</td>
+{% set prctCummule = 0 %}
+{% for stock in stocksA %}
+      <tr>
+    {% set TSETfirstVal = false %}
+    {% for stk in stock %}
+      {% if TSETfirstVal == false %}
+        {% set TSETfirstVal = true %}
+          <th class="pt-1 pb-1 col-1">{{ stk }}</th>
+      {% else %}
+          <td class="pt-1 pb-1" style="font-size:0.9em">{{ stk }}</td>
+      {% endif %}
+      {% set pr = stk %}
     {% endfor %}
-    <td class="pt-1 pb-1">?</td>
-    <td class="pt-1 pb-1">?</td>
+    {# number_format(2) after , #}
+        {% set part = (stock|last / totalVAL|last * 100)|number_format %}
+        <td class="pt-1 pb-1">{{ part }}%</td>
+        {% set prctCummule = prctCummule + part %}
+        <td class="pt-1 pb-1">{{ prctCummule }}%</td>
+      <tr>
+{% endfor %}
+    </tbody>
+    <tr class="table-primary">
+     <th class="pt-1 pb-1 col-1">Total</th>
+    {% for tot in totalVAL %}
+     <td class="pt-1 pb-1">{{ tot }}</td>
+    {% endfor %}
+    <td class="pt-1 pb-1">100%</td>
+    <td class="pt-1 pb-1"> 100% </td>
     </tr>
   </table>
 </center>
+
 </div>   
 
 
   <div class="tab-pane fade" id="tabVal">
 
 <center>
-<table id="dataTable" name="stocks" class="table-scroll small-first-col table table-striped fixed_header tablew">
+{# class="table-scroll small-first-col table table-striped fixed_header tablew" #}
+<table id="dataTable" name="stocks" class="table table-hover table-scroll small-first-col table table-striped fixed_header">
    <thead class="table-primary" style="font-size:0.8em">
-    <th class="t1">Valeur</th>
+    <th class="pt-1 pb-1 col-1">Valeur</th>
+{# class="pt-1 pb-1"#}
+    {% for cat in catAv %}
+     <th class="pt-1 pb-1">{{ cat.LibelleCategorieAvoir }}</th>
+    {% endfor %}
 
-     {% for cat in catAv %}
-     <th>{{ cat.LibelleCategorieAvoir }}</th>
-     {% endfor %}
-
-    <th class="t1">Total</th>
-    <th class="t1">Part(%)</th>
-    <th class="t1">Part cumutée(%)</th>
+    <th class="pt-1 pb-1">Total</th>
+    <th class="pt-1 pb-1">Part(%)</th>
+    <th class="pt-1 pb-1">Part cumutée(%)</th>
    </thead>
     <tbody class="body-half-screen">
-     {% for stk in stocks %}
-         <tr>
-          <td class="pt-1 pb-1" id="{{ stk.id }}"> {{ stk.Isin }}</td>
-
-          {% for cat in catAv %}
-          {% if stk.CategorieAvoir == cat %}
-            <td class="pt-1 pb-1">{{ stk.Quantity|number_format }}</td>
-          {% else %}
-            <td class="pt-1 pb-1"> - </td>
-          {% endif %}
-          {% endfor %}
-
-          <td class="pt-1 pb-1" id="{{ stk.id }}"> {{ stk.Quantity|number_format }}</td>
-          <td class="pt-1 pb-1">?</td>
-          <td class="pt-1 pb-1">?</td>
-         </tr> 
-     {% endfor %}
-    </tbody>
-    <tr>
-     <th class="pt-1 pb-1">Total</th>
-    {% for cat in catAv %}
-     <td class="pt-1 pb-1">111</td>
+{% set prctCummule = 0 %}
+{% for stock in stocksV %}
+      <tr>
+    {% set TSETfirstVal = false %}
+    {% for stk in stock %}
+      {% if TSETfirstVal == false %}
+        {% set TSETfirstVal = true %}
+          <th class="pt-1 pb-1 col-1">{{ stk }}</th>
+      {% else %}
+          <td class="pt-1 pb-1" style="font-size:0.9em">{{ stk }}</td>
+      {% endif %}
+      {% set pr = stk %}
     {% endfor %}
-    <td class="pt-1 pb-1">?</td>
-    <td class="pt-1 pb-1">?</td>
+        {% set part = (stock|last / totalVAL|last * 100)|number_format(2) %}
+        <td class="pt-1 pb-1">{{ part }}%</td>
+        {% set prctCummule = prctCummule + part %}
+        <td class="pt-1 pb-1">{{ prctCummule }}%</td>
+      <tr>
+{% endfor %}
+    </tbody>
+    <tr class="table-primary">
+     <th class="pt-1 pb-1 col-1">Total</th>
+    {% for tot in totalVAL %}
+     <td class="pt-1 pb-1">{{ tot }}</td>
+    {% endfor %}
+    <td class="pt-1 pb-1">100%</td>
+    <td class="pt-1 pb-1"> 100% </td>
     </tr>
   </table>
 </center>
-
-
 </div>
 
 

@@ -69,11 +69,10 @@ class StockImportCommand extends Command
 
             $erreur = false;
             $first_error1 = false;
-            $first_error2 = false;
 
-            $ter = "";
-            $ner = "";
-            $rm = "";
+            $ter = "longeur insuffisant:";
+            $ner = "donné introuvable: ";
+            $rm = "Erreur:";
 
             $nom = $file->getFilename();
 
@@ -115,13 +114,7 @@ class StockImportCommand extends Command
                 $lv = true;
                 $erreur = true;
                 $error2 = true;
-                if($first_error2 === false){
-                    $ner .= "(Code Adherent) $lignes"; 
-                    $first_error2 = true;
-                }
-                else{
-                    $ner .= ", $lignes";
-                }
+                $ner .= " (Code Adherent) $lignes;"; 
             }
 
             $isin = substr($line, 3, 12);
@@ -133,7 +126,7 @@ class StockImportCommand extends Command
             if(!($codeValeur)){
                 $newValeur = (( new Valeur()))->setCodeValeur($valeurIsin);
                 $this->em->persist($newValeur);
-                //$this->em->flush();
+                $this->em->flush();
 
                 $codeValeur = $newValeur;
             }
@@ -146,13 +139,7 @@ class StockImportCommand extends Command
                 $lv = true;
                 $erreur = true;
                 $error2 = true;
-                if($first_error2 === false){
-                    $ner .= "(Code Nature) $lignes"; 
-                    $first_error2 = true;
-                }
-                else{
-                    $ner .= ", $lignes";
-                }
+                $ner .= " (Code Nature) $lignes;"; 
             }
 
             $cca = substr($line, 17, 3);
@@ -163,13 +150,7 @@ class StockImportCommand extends Command
                 $lv = true;
                 $erreur = true;
                 $error2 = true;
-                if($first_error2 === false){
-                    $ner .= "(Catégorie Avoir) $lignes"; 
-                    $first_error2 = true;
-                }
-                else{
-                    $ner .= ", $lignes";
-                }
+                $ner .= " (Catégorie Avoir) $lignes;"; 
             }
 
             $quantite = substr($line, 20, 10);
@@ -217,13 +198,13 @@ class StockImportCommand extends Command
 
         }
         else if($erreur === true){
+            $this->em->clear();
             if($error1 === true){
-                $rm .="Erreur(taille) à la lignes : $ter; ";
+                $rm .="\n - $ter; ";
             }           
             if($error2 === true){
-                $rm .= "Erreur(null) à la lignes : $ner; ";
+                $rm .= "\n - $ner";
             }
-
         $statMv = (new StatStock())
             ->setNomFicher($nom)
             ->setDateChrg(new \DateTime('now'))

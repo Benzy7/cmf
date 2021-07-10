@@ -150,6 +150,10 @@ class AdminController extends AbstractController
             'label' => 'Chargement fichers Stock',
             'attr'=> array('class' => 'btn btn-info btn-lg btn-block')
         ))
+        ->add('INTRM', SubmitType::class, array(
+            'label' => 'Chargement fichers Intermidiaires',
+            'attr'=> array('class' => 'btn btn-info btn-lg btn-block')
+        ))
         ->getForm();
 
         $form->handleRequest($request);
@@ -162,6 +166,10 @@ class AdminController extends AbstractController
             
             if ($form->getClickedButton() && 'STK' === $form->getClickedButton()->getName()) {
                     exec('C:\files\batch\StkImport.bat');
+                    }
+                    
+            if ($form->getClickedButton() && 'STK' === $form->getClickedButton()->getName()) {
+                    exec('C:\files\batch\IntrmImport.bat');
                     }
 
             return $this->redirectToRoute('new_file');

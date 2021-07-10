@@ -35,11 +35,6 @@ class Valeur
     private $Mnemonique;
 
     /**
-     * @ORM\Column(type="string", length=2, nullable=true)
-     */
-    private $TypeValeur;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $NbTitresadmisBourse;
@@ -74,11 +69,22 @@ class Valeur
      */
     private $intermidiaires;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=TypeValeur::class, inversedBy="valeurs")
+     */
+    private $TypeValeur;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Orders::class, mappedBy="CodeValeur")
+     */
+    private $orders;
+
     public function __construct()
     {
         $this->mouvements = new ArrayCollection();
         $this->stocks = new ArrayCollection();
         $this->intermidiaires = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -118,18 +124,6 @@ class Valeur
     public function setMnemonique(?string $Mnemonique): self
     {
         $this->Mnemonique = $Mnemonique;
-
-        return $this;
-    }
-
-    public function getTypeValeur(): ?string
-    {
-        return $this->TypeValeur;
-    }
-
-    public function setTypeValeur(?string $TypeValeur): self
-    {
-        $this->TypeValeur = $TypeValeur;
 
         return $this;
     }
@@ -266,6 +260,48 @@ class Valeur
             // set the owning side to null (unless already changed)
             if ($intermidiaire->getValeur() === $this) {
                 $intermidiaire->setValeur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTypeValeur(): ?TypeValeur
+    {
+        return $this->TypeValeur;
+    }
+
+    public function setTypeValeur(?TypeValeur $TypeValeur): self
+    {
+        $this->TypeValeur = $TypeValeur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Orders[]
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Orders $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->setCodeValeur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Orders $order): self
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getCodeValeur() === $this) {
+                $order->setCodeValeur(null);
             }
         }
 

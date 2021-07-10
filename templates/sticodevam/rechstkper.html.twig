@@ -4,6 +4,10 @@
 
 {% block body %}
 
+{% set dateB = [] %}
+{% set FltDateB = [] %}
+{% set qte = [] %}
+
 <style>
 
  td,th{
@@ -55,7 +59,7 @@
 
 <br>
 
-{% if stocks %}
+{% if perStocks %}
 
 <div id="stcItems" class="container">
 
@@ -73,41 +77,88 @@
 <div id="myTabContent" class="tab-content">
 
   <div class="tab-pane fade active show" id="tab">
-<br>
 
 <center>
-<table id="dataTable" name="stocks" class="table-scroll small-first-col table table-striped fixed_header tablew">
-   <thead class="table-primary">
-    <th class="t1">Date Bourse</th>
-    <th class="t1">Av ctts libres Tun</th>
-    <th class="t1">Total Adhérent</th>
-    <th class="t1">Total Sticodevam</th>
-    <th class="t1">Part(%) / Sticodevam</th>
-    <th class="t1">Delta / Veille</th>
-    <th class="t1">Delta / Début période</th>
+<table id="dataTable" name="stocks" class="table table-hover table-scroll small-first-col table table-striped fixed_header">
+   <thead class="table-primary" style="font-size:0.8em">
+    <th class="pt-1 pb-1 col-1">Date Bourse</th>
+    {% for cat in catAv %}
+     <th class="pt-1 pb-1">{{ cat.LibelleCategorieAvoir }}</th>
+    {% endfor %}
+    <th class="pt-1 pb-1">Total</th>
+    <th class="pt-1 pb-1">Part(%)</th>
    </thead>
     <tbody class="body-half-screen">
-     {% for stk in stocks %}
-         <tr name="{{ stk.StockExchangeDate|date("m/d/Y") }}{{ stk.Quantity }}">
-          <th class="pt-1 pb-1" id="{{ stk.id }}"> {{ stk.StockExchangeDate|date("m/d/Y") }}</th>
-          <td class="pt-1 pb-1" id="{{ stk.id }}"> {{ stk.Quantity|number_format }}</td>
-          <td class="pt-1 pb-1" id="{{ stk.id }}"> ? </td>
-          <td class="pt-1 pb-1" id="{{ stk.id }}"> ? </td>
-          <td class="pt-1 pb-1" id="{{ stk.id }}"> ? </td>
-          <td class="pt-1 pb-1" id="{{ stk.id }}"> ? </td>
-          <td class="pt-1 pb-1" id="{{ stk.id }}"> ? </td>
-         </tr> 
-     {% endfor %}
+{% set endTot = totalDATE|last - toDel %}
+{% set totalDATE = totalDATE|slice(0,-1) %}
+{% set totalDATE = totalDATE|merge( [endTot] ) %}
+{% set TSETfirstDate = false %}
+{% set firstTot = true %}
+{% set graphFlt = true %}
+
+{% for stock in FltPerStocks %}
+    {% if firstTot == false %}
+      {% set lastTot = stock|last - IDKqtt %}
+      {% set stock = stock|slice(0,-1) %}
+      {% set stock = stock|merge( [lastTot] ) %}
+    {% endif %}
+    {% set firstTot = false %}
+      <tr>
+    {% set TSETfirstVal = false %}
+    {% set kfx = -1 %}
+    {% for stk in stock %}
+      {% set kfx = kfx + 1 %}
+      {% if TSETfirstVal == false %}
+        {% set TSETfirstVal = true %}
+          <th class="pt-1 pb-1 col-1" style="font-size:0.8em">{{ stk }}</th>
+      {% else %}
+          {% if TSETfirstDate == false and kfx == IDKkey %}
+            {% set TSETfirstDate = true %}
+            <td class="pt-1 pb-1" style="font-size:0.9em">{{ stk }}</td>
+          {% else %}
+            {% if kfx == IDKkey %}
+                {% set stk = stk - IDKqtt %}
+            {% endif %}
+            <td class="pt-1 pb-1" style="font-size:0.9em">{{ stk }}</td>
+          {% endif %}
+      {% endif %}
+    {% endfor %}
+        {% set part = (stock|last / totalDATE|last * 100)|number_format(2) %}
+        <td class="pt-1 pb-1" style="font-size:0.9em">{{ part }}%</td>
+      <tr>
+      {% if graphFlt == true %}
+        {% set FltDateB = FltDateB|merge([ stock|first  ]) %}
+        {% set graphFlt = false %}
+      {% else %}
+        {% set FltDateB = FltDateB|merge([ " "  ]) %}
+        {% set graphFlt = true %}
+      {% endif %}
+
+      {% set dateB = dateB|merge([ stock|first  ]) %}
+      {% set qte = qte|merge([ stock|last  ]) %}
+{% endfor %}
     </tbody>
+    <tr class="table-primary">
+     <th class="pt-1 pb-1 col-1">Total</th>
+    {% set t = 0 %}
+    {% for tot in totalDATE %}
+      {% set t = t + 1 %}
+      {% if t == IDKkey %}{% set tot = tot - toDel %}{% endif %}
+      <td class="pt-1 pb-1" style="font-size:0.9em">{{ tot }}</td>
+    {% endfor %}
+    <td class="pt-1 pb-1" style="font-size:0.9em">100%</td>
+    </tr>
   </table>
+
 </center>
 </div>   
 
-
-  <div class="tab-pane fade" id="graph">
-    <div id="chart_div" style="width: 400px; height: 200px;"></div>
-  </div>
-
+<div class="tab-pane fade" id="graph">
+<center>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <div id="chart_div"></div>
+</center>
+</div>
 
 </div>
 
@@ -120,11 +171,32 @@
   </div>
  {% endif %} 
 
+{#   <script src="/js/graph/stock/per.js"></script> #} 
+<script>
+google.charts.load('45', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
 
+function drawChart() {
 
-  <script src="/js/graph/area.js"></script>
- {# <script src="/js/graph/graph.js"></script>  #}
+  const FltDateB = JSON.parse('{{ FltDateB | json_encode | raw }}');
+  const qte = JSON.parse('{{ qte | json_encode | raw }}');
 
+  var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Date de bourse');
+    data.addColumn('number', 'Quantité');
 
+  for(i = 0; i < qte.length; i++)
+    data.addRow([FltDateB[i], qte[i]]);
+
+  var options = {
+    //title: "Titre",
+    hAxis: {title: 'Date Bourse',  titleTextStyle: {color: '#333'}},
+    vAxis: {minValue: 0},
+    width: 800,
+    height: 500
+  };
+  new google.visualization.AreaChart(document.getElementById('chart_div')).draw(data, options);
+}
+</script>
 
 {% endblock %}

@@ -35,7 +35,8 @@ class StockSearch
     private $Tcodead;
 
     /**
-     * @var String|null
+     * @ORM\ManyToOne(targetEntity=Valeur::class, inversedBy="stocks")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $Sisin;
     /**
@@ -61,7 +62,7 @@ class StockSearch
     /**
      * @var String|null
      */
-    private $Valeurs = [];
+    private $TypeValeurs = [];
 
     public function setDatebdeb(?\DateTimeInterface $Datebdeb): self
     {
@@ -89,7 +90,7 @@ class StockSearch
         return $this;
     }
 
-    public function setSisin(?string $Sisin): self
+    public function setSisin(?Valeur $Sisin): self
     {
         $this->Sisin = $Sisin;
 
@@ -135,9 +136,9 @@ class StockSearch
         return $this;
     }
 
-    public function setValeurs(?array $Valeurs): self
+    public function setTypeValeurs(?array $TypeValeurs): self
     {
-        $this->Valeurs = $Valeurs;
+        $this->TypeValeurs = $TypeValeurs;
 
         return $this;
     }
@@ -162,7 +163,7 @@ class StockSearch
         return $this->Scoden;
     }
 
-    public function getSisin(): ?string
+    public function getSisin(): ?Valeur
     {
         return $this->Sisin;
     }
@@ -194,9 +195,9 @@ class StockSearch
         return $this->TypeAdherents;
     }
 
-    public function getValeurs(): ?array
+    public function getTypeValeurs(): ?array
     {
-        return $this->Valeurs;
+        return $this->TypeValeurs;
     }
 
 }

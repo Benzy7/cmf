@@ -8,6 +8,10 @@ use App\Entity\CodeProfit;
 use App\Entity\CodeTitre;
 use App\Entity\ReglementIntrm;
 
+use App\Entity\AdhrentIntermidiaire;
+use App\Entity\Adherent;
+
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -19,6 +23,149 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RefIntermidairesController extends AbstractController
 {
+    /**
+     * @Route("/intermidiares", name="liste_intermidiares")
+     */
+    public function listeIntermidiares()
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $intrms = $this->getDoctrine()->getRepository(AdhrentIntermidiaire::class)->findAll();
+
+        return $this->render('referentiel/general/intrm/listintrm.html.twig', [
+            'intrms' => $intrms ,
+        ]);
+    }
+
+    /**
+     * @Route("/intermidiares/new" , name="new_intermidiares")
+     * Method( {"GET", "POST"})
+     */
+    public function newIntermidiare(request $request){
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $intrm = new  AdhrentIntermidiaire();
+
+        $form = $this->createFormBuilder($intrm)
+        ->add('CodeInterm',EntityType::class,[
+            'class' => Adherent::class,
+            'label' => 'Intermédiaire :',
+            'group_by' => 'CodeAdherent',
+            'attr' => array('class' => 'form-control'),
+            'choice_label' => 'NomAdherent',
+        ])
+        ->add('LibelleSigle', TextType::class, array(
+            'required' => false ,
+            'label' => 'Libellé Sigle :',
+            'attr'=> array('class' => 'form-control')
+            ))
+        ->add('LibelleReduit', TextType::class, array(
+            'required' => false ,
+            'label' => 'Libellé Réduit :',
+            'attr'=> array('class' => 'form-control')
+            ))      
+        ->add('DateCult',DateType::class,[
+            'years' => range(date('Y'), 1990),
+            'attr'=> array('class' => 'form-control'),
+            'required' => false,
+            'label' => 'Date de clôture du code :',
+            ])
+    
+        ->add('save', SubmitType::class, array(
+            'label' => 'Valider',
+            'attr'=> array('class' => 'btn btn-success mt-3')
+            ))
+        ->getForm();
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid() ){
+            $intrm = $form->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($intrm);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('liste_intermidiares');
+        }
+
+        return $this->render('referentiel/general/intrm/newintrm.html.twig', array( 'form' => $form->createView() ));
+    }
+
+    /**
+     * @Route("/intermidiares/edit/{id}" , name="intermidiare_edit")
+     * Method( {"GET", "POST"})
+     */
+    public function editIntermidiare(request $request, $id){
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $intr = new AdhrentIntermidiaire();
+        $intr = $this->getDoctrine()->getRepository(AdhrentIntermidiaire::class)->find($id);
+
+        $form = $this->createFormBuilder($intr)
+        ->add('CodeInterm',EntityType::class,[
+            'class' => Adherent::class,
+            'label' => 'Intermédiaire :',
+            'attr' => array('class' => 'form-control'),
+            'choice_label' => 'NomAdherent',
+        ])
+        ->add('LibelleSigle', TextType::class, array(
+            'required' => false ,
+            'label' => 'Libellé Sigle :',
+            'attr'=> array('class' => 'form-control')
+            ))
+        ->add('LibelleReduit', TextType::class, array(
+            'required' => false ,
+            'label' => 'Libellé Réduit :',
+            'attr'=> array('class' => 'form-control')
+            ))      
+        ->add('DateCult',DateType::class,[
+            'years' => range(date('Y'), 1990),
+            'attr'=> array('class' => 'form-control'),
+            'required' => false,
+            'label' => 'Date de clôture du code :',
+            ])
+    
+        ->add('save', SubmitType::class, array(
+            'label' => 'Mise a jour',
+            'attr'=> array('class' => 'btn btn-success mt-3')
+            ))
+        ->getForm();
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid() ){
+            $intr->setDateMaj(new \DateTime('now'));
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+
+            return $this->redirectToRoute('liste_intermidiares');
+        }
+
+        return $this->render('referentiel/general/intrm/editintrm.html.twig', array( 'form' => $form->createView() ));
+    }
+
+    /**
+     * @Route("/intermidiares/delete/{id}")
+     * Method({"DELETE"})
+     */
+    public function deleteIntermidiare(Request $request, $id){
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $dintr = $this->getDoctrine()->getRepository(AdhrentIntermidiaire::class)->find($id);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($dintr);
+        $entityManager->flush();
+        
+        $response = new Response();
+        $response->send();
+    }
+
     /**
      * @Route("/comptec", name="code_compte")
      */
@@ -116,7 +263,6 @@ class RefIntermidairesController extends AbstractController
 
         return $this->render('referentiel/intermidaires/compte/editcompte.html.twig', array( 'form' => $form->createView() ));
     }
-
 
     /**
      * @Route("/comptec/delete/{id}")
@@ -234,7 +380,6 @@ class RefIntermidairesController extends AbstractController
         return $this->render('referentiel/intermidaires/marche/editmarche.html.twig', array( 'form' => $form->createView() ));
     }
 
-
     /**
      * @Route("/marchec/delete/{id}")
      * Method({"DELETE"})
@@ -350,7 +495,6 @@ class RefIntermidairesController extends AbstractController
 
         return $this->render('referentiel/intermidaires/profit/editprofit.html.twig', array( 'form' => $form->createView() ));
     }
-
 
     /**
      * @Route("/profit/delete/{id}")
@@ -468,7 +612,6 @@ class RefIntermidairesController extends AbstractController
         return $this->render('referentiel/intermidaires/titre/edittitre.html.twig', array( 'form' => $form->createView() ));
     }
 
-
     /**
      * @Route("/titre/delete/{id}")
      * Method({"DELETE"})
@@ -584,7 +727,6 @@ class RefIntermidairesController extends AbstractController
 
         return $this->render('referentiel/intermidaires/compte/editreg.html.twig', array( 'form' => $form->createView() ));
     }
-
 
     /**
      * @Route("/reg/delete/{id}")

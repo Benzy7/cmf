@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Operation{% endblock %}
+
+{% block body %}
+
+    <a class="btn btn-link" href="/ref" role="button"><img src="/img/retour.png"></a><br><br>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm" align="left">
+      <h3>Opérations</h3>
+    </div>
+    <div class="col-sm" align="center">
+      <div class="form-group has-search">
+        <span class="fa fa-search form-control-feedback"><img src="/img/loupe.png"></span>
+        <input type="search" placeholder="Chercher..." class="form-control mr-sm-2 search-input" data-table="operation"/>
+      </div>
+    </div>
+    <div class="col-sm" align="right">
+      <a class="btn btn-primary" href="/codeop/new" role="button"><img src="/img/add.png">
+      <font style="opacity: 0.0;">_</font>Ajouter</a>   
+    </div>
+  </div>
+</div>
+
+ {% if operation %}
+  <table id="operation" name="operation"class="table table-striped operation" style="padding:5px; border-spacing:5px;">
+   <thead>
+    <th></th>
+    <th> Code Opération</th>
+    <th> Libellé Opération</th>
+    <th> Date de mise a jour</th>
+    <th> Actions</th>
+   </thead>
+    <tbody>
+    {% set obs = 1 %}
+     {% for op in operation %}
+         <tr>
+          <td class="pt-1 pb-1 table-primary"> {{ obs }}</td>
+          <td class="pt-1 pb-1"> {{ op.CodeOperation }}</td>
+          <td class="pt-1 pb-1"> {{ op.LibelleOperation }}</td>
+          <td class="pt-1 pb-1"> {% if op.datemaj %} {{ op.DateMaj|date("m/d/Y") }} {% endif %}</td>
+          <td class="pt-1 pb-1"> 
+            <a href="/codeop/edit/{{ op.id }}" class="btn btn-secondary btn-sm">Modifier</a>
+            <a href="#" class="btn btn-danger delete-codeop btn-sm" data-id="{{ op.id }}">Supprimer</a> 
+          </td>
+         </tr> 
+          {% set obs = obs + 1 %}
+     {% endfor %}
+    </tbody>
+  </table>
+
+   <script src="/js/del/suppop.js"></script>
+   <script src="/js/sch/sch.js"></script>
+
+  {% else %}
+  <div class="alert alert-dismissible alert-primary">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4 class="alert-heading">Tableau vide!</h4>
+  <p class="mb-0">pas des données d'Operations.</p>
+  </div> 
+  {% endif %}
+
+
+{% endblock %}

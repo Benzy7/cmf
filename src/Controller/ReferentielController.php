@@ -27,7 +27,7 @@ class ReferentielController extends AbstractController
 
         $nature = $this->getDoctrine()->getRepository(CodeNature::class)->findAll();
 
-        return $this->render('referentiel/nature/nature.html.twig' , array('nature' => $nature) );
+        return $this->render('referentiel/sticodevam/nature/nature.html.twig' , array('nature' => $nature) );
     }
 
     /**
@@ -62,7 +62,7 @@ class ReferentielController extends AbstractController
             return $this->redirectToRoute('liste_codenature');
         }
 
-        return $this->render('referentiel/nature/new.html.twig', array( 'form' => $form->createView() ));
+        return $this->render('referentiel/sticodevam/nature/new.html.twig', array( 'form' => $form->createView() ));
     }
 
     /**
@@ -89,14 +89,16 @@ class ReferentielController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid() ){
-            
+
+            $nature->setDateMaj(new \DateTime('now'));
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
 
             return $this->redirectToRoute('liste_codenature');
         }
 
-        return $this->render('referentiel/nature/edit.html.twig', array( 'form' => $form->createView() ));
+        return $this->render('referentiel/sticodevam/nature/edit.html.twig', array( 'form' => $form->createView() ));
     }
 
 
@@ -128,7 +130,7 @@ class ReferentielController extends AbstractController
  
          $operation = $this->getDoctrine()->getRepository(Operation::class)->findAll();
  
-         return $this->render('referentiel/operation/operation.html.twig' , array('operation' => $operation) );
+         return $this->render('referentiel/sticodevam/operation/operation.html.twig' , array('operation' => $operation) );
      }
  
      /**
@@ -163,7 +165,7 @@ class ReferentielController extends AbstractController
              return $this->redirectToRoute('liste_codeop');
          }
  
-         return $this->render('referentiel/operation/new.html.twig', array( 'form' => $form->createView() ));
+         return $this->render('referentiel/sticodevam/operation/new.html.twig', array( 'form' => $form->createView() ));
      }
  
      /**
@@ -199,7 +201,7 @@ class ReferentielController extends AbstractController
              return $this->redirectToRoute('liste_codeop');
          }
  
-         return $this->render('referentiel/operation/edit.html.twig', array( 'form' => $form->createView() ));
+         return $this->render('referentiel/sticodevam/operation/edit.html.twig', array( 'form' => $form->createView() ));
      }
  
  
@@ -231,7 +233,7 @@ class ReferentielController extends AbstractController
 
         $categories = $this->getDoctrine()->getRepository(CategorieAvoir::class)->findAll();
 
-        return $this->render('referentiel/categorie/categorie.html.twig' , array('categories' => $categories) );
+        return $this->render('referentiel/sticodevam/categorie/categorie.html.twig' , array('categories' => $categories) );
     }
 
     /**
@@ -266,7 +268,7 @@ class ReferentielController extends AbstractController
             return $this->redirectToRoute('liste_codecategorie');
         }
 
-        return $this->render('referentiel/categorie/new.html.twig', array( 'form' => $form->createView() ));
+        return $this->render('referentiel/sticodevam/categorie/new.html.twig', array( 'form' => $form->createView() ));
     }
 
     /**
@@ -293,6 +295,7 @@ class ReferentielController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid() ){
+            $categorie->setDateMaj(new \DateTime('now'));
             
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
@@ -300,7 +303,7 @@ class ReferentielController extends AbstractController
             return $this->redirectToRoute('liste_codecategorie');
         }
 
-        return $this->render('referentiel/categorie/edit.html.twig', array( 'form' => $form->createView() ));
+        return $this->render('referentiel/sticodevam/categorie/edit.html.twig', array( 'form' => $form->createView() ));
     }
 
 

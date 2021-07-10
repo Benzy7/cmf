@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nature{% endblock %}
+
+{% block body %}
+
+    <a class="btn btn-link" href="/ref" role="button"><img src="/img/retour.png"></a><br><br>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm" align="left">
+      <h3>Nature Comptes</h3>
+    </div>
+    <div class="col-sm" align="center">
+      <div class="form-group has-search">
+        <span class="fa fa-search form-control-feedback"><img src="/img/loupe.png"></span>
+        <input type="search" placeholder="Chercher..." class="form-control mr-sm-2 search-input" data-table="nature"/>
+      </div>
+    </div>
+    <div class="col-sm" align="right">
+      <a class="btn btn-primary" href="/naturec/new" role="button"><img src="/img/add.png">
+      <font style="opacity: 0.0;">_</font>Ajouter</a>   
+    </div>
+  </div>
+</div>
+
+ {% if nature %}
+  <table id="nature" name="nature"class="table table-striped nature" style="padding:5px; border-spacing:5px;">
+   <thead>
+    <th></th>
+    <th> Code Nature de Compte</th>
+    <th> Libellé Nature de Compte </th>
+    <th> Date de mise a jour</th>
+    <th> Actions</th>
+   </thead>
+    <tbody>
+    {% set obs = 1 %}
+     {% for nat in nature %}
+         <tr>
+          <th class="pt-1 pb-1 table-primary"> {{ obs }}</th>
+          <td class="pt-1 pb-1"> {{ nat.CodeNatureCompte }}</td>
+          <td class="pt-1 pb-1"> {{ nat.LibelleNatureCompte }}</td>
+          <td class="pt-1 pb-1"> {% if nat.datemaj %} {{ nat.DateMaj|date("m/d/Y") }} {% endif %}</td>
+          <td class="pt-1 pb-1"> 
+            <a href="/naturec/edit/{{ nat.id }}" class="btn btn-secondary btn-sm">Modifier</a>
+            <a href="#" class="btn btn-danger delete-nat btn-sm" data-id="{{ nat.id }}">Supprimer</a> 
+          </td>
+         </tr> 
+         {% set obs = obs + 1 %}
+     {% endfor %}
+    </tbody>
+  </table>
+
+   <script src="/js/del/suppnat.js"></script>
+   <script src="/js/sch/sch.js"></script>
+
+  {% else %}
+  <div class="alert alert-dismissible alert-primary">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4 class="alert-heading">Tableau vide!</h4>
+  <p class="mb-0">pas des données de codes nature.</p>
+  </div> 
+  {% endif %}
+
+
+{% endblock %}

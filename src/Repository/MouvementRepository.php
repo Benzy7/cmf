@@ -34,7 +34,8 @@ class MouvementRepository extends ServiceEntityRepository
             ->setParameter('dateafin', $dateafin);
 
             if($sisin || $tisin) {
-         $qb->andWhere('m.Isin LIKE :sisin OR m.Isin LIKE :tisin')
+         $qb->innerJoin('App\Entity\Valeur','v',Join::WITH,'v.id = m.CodeValeur');
+         $qb->andWhere('v.id LIKE :sisin OR v.CodeValeur LIKE :tisin')
             ->setParameter('sisin', $sisin)
             ->setParameter('tisin', $tisin);
             }

@@ -70,11 +70,10 @@ class MouvementImportCommand extends Command
 
             $erreur = false;
             $first_error1 = false;
-            $first_error2 = false;
 
-            $ter = "";
-            $ner = "";
-            $rm = "";
+            $ter = "longeur insuffisant:";
+            $ner = "donné introuvable: ";
+            $rm = "Erreur:";
 
 
             $lignes = 0;
@@ -120,13 +119,8 @@ class MouvementImportCommand extends Command
                 $lv = true;
                 $erreur = true;
                 $error2 = true;
-                if($first_error2 === false){
-                    $ner .= "(Code Operation) $lignes"; 
-                    $first_error2 = true;
-                }
-                else{
-                    $ner .= ", $lignes";
-                }
+
+                $ner .= " (Code Operation) $lignes;"; 
             }
 
             $isin = substr($line, 2, 12);
@@ -138,6 +132,7 @@ class MouvementImportCommand extends Command
             if(!($codeValeur)){
                 $newValeur = (( new Valeur()))->setCodeValeur($valeurIsin);
                 $this->em->persist($newValeur);
+                $this->em->flush();
 
                 $codeValeur = $newValeur;
             }
@@ -154,13 +149,8 @@ class MouvementImportCommand extends Command
                 $lv = true;
                 $erreur = true;
                 $error2 = true;
-                if($first_error2 === false){
-                    $ner .= "(Code Adherent livreur) $lignes"; 
-                    $first_error2 = true;
-                }
-                else{
-                    $ner .= ", $lignes";
-                }
+
+                $ner .= " (Code Adherent livreur) $lignes;"; 
             }
 
             $ncl = substr($line, 33, 2);
@@ -171,13 +161,8 @@ class MouvementImportCommand extends Command
                 $lv = true;
                 $erreur = true;
                 $error2 = true;
-                if($first_error2 === false){
-                    $ner .= "(Code nature livreur)$lignes"; 
-                    $first_error2 = true;
-                }
-                else{
-                    $ner .= ", $lignes";
-                }
+
+                $ner .= " (Code nature livreur)$lignes;"; 
             }
 
             $cal = substr($line, 35, 3);
@@ -188,13 +173,8 @@ class MouvementImportCommand extends Command
                 $lv = true;
                 $erreur = true;
                 $error2 = true;
-                if($first_error2 === false){
-                    $ner .= "(Catégorie Avoir livreur) $lignes"; 
-                    $first_error2 = true;
-                }
-                else{
-                    $ner .= ", $lignes";
-                }
+
+                $ner .= " (Catégorie Avoir livreur) $lignes;"; 
             }
 
             $codeAde = substr($line, 38, 3);
@@ -205,13 +185,8 @@ class MouvementImportCommand extends Command
                 $lv = true;
                 $erreur = true;
                 $error2 = true;
-                if($first_error2 === false){
-                    $ner .= "(Code Adherent livré) $lignes"; 
-                    $first_error2 = true;
-                }
-                else{
-                    $ner .= ", $lignes";
-                }
+
+                $ner .= " (Code Adherent livré) $lignes;"; 
             }
 
             $ncle = substr($line, 41, 2);
@@ -222,13 +197,8 @@ class MouvementImportCommand extends Command
                 $lv = true;
                 $erreur = true;
                 $error2 = true;
-                if($first_error2 === false){
-                    $ner .= "(Code Nature livré) $lignes"; 
-                    $first_error2 = true;
-                }
-                else{
-                    $ner .= ", $lignes";
-                }
+
+                $ner .= " (Code Nature livré) $lignes;"; 
             }
 
             $cale = substr($line, 43, 3);
@@ -239,13 +209,8 @@ class MouvementImportCommand extends Command
                 $lv = true;
                 $erreur = true;
                 $error2 = true;
-                if($first_error2 === false){
-                    $ner .= "(Catégorie Avoir livré) $lignes"; 
-                    $first_error2 = true;
-                }
-                else{
-                    $ner .= ", $lignes";
-                }
+                
+                $ner .= " (Catégorie Avoir livré) $lignes;"; 
             }
 
             $nbTitres = substr($line, 46, 10);
@@ -271,9 +236,7 @@ class MouvementImportCommand extends Command
                     ->setAmount($montant)
                 ; 
                 
-                //if($erreur === false){
                     $this->em->persist($mvfile);
-                //    }
 
                 }
             }
@@ -302,14 +265,14 @@ class MouvementImportCommand extends Command
 
         }
         else if($erreur === true){
-
+            $this->em->clear();
             if($error1 === true){
-                $rm .="Erreur(taille) à la lignes : $ter; ";
+                $rm .="\n - $ter; ";
             }           
             if($error2 === true){
-                $rm .= "Erreur(null) à la lignes : $ner; ";
+                $rm .= "\n - $ner";
             }
-        
+            nl2br($rm);
         $statMv = (new StatMvt())
             ->setNomFicher($nom)
             ->setDateChrg(new \DateTime('now'))

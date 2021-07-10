@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Renseignement Orders{% endblock %}
+
+{% block body %}
+
+    <a class="btn btn-link" href="/chrg" role="button"><img src="/img/retour.png"></a><br><br>
+  <h3>Renseignement Sur les chargement de données Orders</h3><br>  
+
+ {% if statOrd %}
+  <table id="stat" name="stat" class="table table-striped fixed_header" style="padding:5px; border-spacing:5px;">
+   <thead>
+    <th></th>
+    <th> Nom Ficher</th>
+    <th> Date de chargement</th>
+    <th> Heure de chargement</th>
+    <th> Date Ficher</th>
+    <th> Etat</th>
+    <th> Remarque</th>
+    <th> Nombre de lignes</th>
+    <th> Actions</th>
+   </thead>
+    <tbody>
+     {% set obs = 1 %}
+     {% for stat in statOrd %}
+         <tr>
+          <td class="table-primary pt-1 pb-1"> {{ obs }}</td>
+          <td class="pt-1 pb-1"> {{ stat.NomFicher }}</td>
+          <td class="pt-1 pb-1"> {{ stat.DateChrg|date("m/d/Y") }}</td>
+          <td class="pt-1 pb-1"> {{ stat.HeureChrg|date("H:i:s") }}</td>
+          <td class="pt-1 pb-1"> {{ stat.DateFicher|date("m/d/Y") }}</td>
+          <td class="pt-1 pb-1"> {{ stat.Etat }}</td>
+          <td class="pt-1 pb-1"> {{ stat.RemarqueMotif }}</td>
+          <td class="pt-1 pb-1"> {{ stat.NbLignes }}</td>
+          <td class="pt-1 pb-1"> 
+            <a href="#" class="btn btn-danger delete-stat btn-sm" data-id="{{ stat.id }}">Supprimer</a> 
+          </td>
+         </tr> 
+        {% set obs = obs + 1 %}
+     {% endfor %}
+    </tbody>
+  </table>
+
+   <script src="/js/del/suppstat.js"></script>
+
+  {% else %}
+  <div class="alert alert-dismissible alert-primary">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4 class="alert-heading">Tableau vide!</h4>
+  <p class="mb-0">pas des données de chargement.</p>
+</div>
+ {% endif %}
+
+
+{% endblock %}

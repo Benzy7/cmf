@@ -21,7 +21,6 @@
 
 </div> #}
 
-	
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-b-160 p-t-50">
@@ -46,7 +45,14 @@
 							Connexion
 						</button>
 					</div>
-					
+			{% if error %}
+			<div style="position: absolute; top: 0; left: 0;">
+				<div class="alert alert-dismissible alert-danger">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<strong>Erreur!</strong> <a href="#" class="alert-link">identifiant ou mot de passe incorrect
+				</div>
+			</div>
+			{% endif %}
 					<div class="text-center w-full p-t-23">
 						<a href="#" class="txt1">
 							Mot de passe oublié?

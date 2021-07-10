@@ -35,7 +35,8 @@ class MouvementSearch
     private $Tcodeop;
 
     /**
-     * @var String|null
+     * @ORM\ManyToOne(targetEntity=Valeur::class, inversedBy="mouvements")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $Sisin;
     /**
@@ -80,7 +81,7 @@ class MouvementSearch
         return $this;
     }
 
-    public function setSisin(?string $Sisin): self
+    public function setSisin(?Valeur $Sisin): self
     {
         $this->Sisin = $Sisin;
 
@@ -131,7 +132,7 @@ class MouvementSearch
         return $this->Scodeop;
     }
 
-    public function getSisin(): ?string
+    public function getSisin(): ?Valeur
     {
         return $this->Sisin;
     }

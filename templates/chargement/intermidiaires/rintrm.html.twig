@@ -1,0 +1,194 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Renseignement Intermidiaires{% endblock %}
+
+{% block body %}
+
+<a class="btn btn-link" href="/chrg" role="button"><img src="/img/retour.png"></a><br>
+  <h3>Renseignement Sur les chargement de données Intermédiaires</h3><br>  
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#ficher">Par Ficher</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#annee">Par Année</a>
+  </li>
+</ul>
+
+<div id="myTabContent" class="tab-content">
+
+  <div class="tab-pane fade show active" id="ficher">
+
+ {% if statIntrm %}
+  <table id="statIntrm" name="statIntrm" class="table table-striped fixed_header" style="padding:5px; border-spacing:5px;">
+   <thead class="">
+    <th></th>
+    <th> Nom Ficher</th>
+    <th> Date de chargement</th>
+    <th> Heure de chargement</th>
+    <th> Date Transaction</th>
+    <th> Etat</th>
+    <th> Remarque</th>
+    <th> Nombre de lignes</th>
+    <th> Actions</th>
+   </thead>
+    <tbody>
+    {% set obs = 1 %}
+    {% for stat in statIntrm %}
+         <tr>
+          <td class="table-primary pt-1 pb-1"> {{ obs }}</td>
+          <td class="pt-1 pb-1"> {{ stat.NomFicher }}</td>
+          <td class="pt-1 pb-1"> {{ stat.DateChrg|date("m/d/Y") }}</td>
+          <td class="pt-1 pb-1"> {{ stat.HeureChrg|date("H:i:s") }}</td>
+          <td class="pt-1 pb-1"> {{ stat.DateTransaction|date("m/d/Y") }}</td>
+          <td class="pt-1 pb-1"> {{ stat.Etat }}</td>
+          <td class="pt-1 pb-1"> {{ stat.RemarqueMotif }}</td>
+          <td class="pt-1 pb-1"> {{ stat.NbLignes }}</td>
+          <td class="pt-1 pb-1"> 
+            <a href="#" class="btn btn-danger delete-stat btn-sm" data-id="{{ stat.id }}">Supprimer</a> 
+          </td>
+         </tr> 
+        {% set obs = obs + 1 %}
+     {% endfor %}
+    </tbody>
+  </table>
+
+   <script src="/js/del/chrg/suppstatintrm.js"></script>
+
+  {% else %}
+  <div class="alert alert-dismissible alert-primary">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4 class="alert-heading">Tableau vide!</h4>
+  <p class="mb-0">pas des données Intermidiaires.</p>
+</div>
+ {% endif %}
+
+  </div>
+
+  <div class="tab-pane fade" id="annee">
+
+{% if statIntrm %}
+
+  <table id="statIntrm" name="statIntrm" class="table table-striped fixed_header" style="padding:5px; border-spacing:5px;">
+  <thead>
+   <tr>
+   <center><h2>{{ "now"|date("Y") }}</h2></center>
+   </tr>
+   <tr>
+    <th></th>
+    <th>01</th>
+    <th>02</th>
+    <th>03</th>
+    <th>04</th>
+    <th>05</th>
+    <th>06</th>
+    <th>07</th>
+    <th>08</th>
+    <th>09</th>
+    <th>10</th>
+    <th>11</th>
+    <th>12</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for intrm in intermidiares %}
+   <tr>
+    <th class="pt-1 pb-1">{{ intrm.LibelleIntrm }}</th>
+  {% for statMois in statIntrm %}
+      {% set NotFound = '' %}
+  {% set Y = "now"|date("Y") %}
+  {% set Mois = Y ~ statMois.NomFicher|slice(0, -4)|slice(-2) %}
+{# {{ Mois }}#}   
+ {% if statMois.NomAdherent == intrm.CodeInterm %}
+    {# 01 to 12 #}
+      {% if Mois ==  "now"|date("Y") ~ '01' %}
+      <td class="pt-1 pb-1"><span class="badge badge-success">Succès</span></td>
+      {% else %}
+      <td class="pt-1 pb-1"><span class="badge badge-danger">Erreur</span></td>
+      {% endif %}
+      {% if Mois == "now"|date("Y") ~ '02' %}
+      <td class="pt-1 pb-1"><span class="badge badge-success">Succès</span></td>
+      {% else %}
+      <td class="pt-1 pb-1"><span class="badge badge-danger">Erreur</span></td>
+      {% endif %}
+      {% if Mois == "now"|date("Y") ~ '03' %}
+      <td class="pt-1 pb-1"><span class="badge badge-success">Succès</span></td>
+      {% else %}
+      <td class="pt-1 pb-1"><span class="badge badge-danger">Erreur</span></td>
+      {% endif %}
+      {% if Mois == "now"|date("Y") ~ '04' %}
+      <td class="pt-1 pb-1"><span class="badge badge-success">Succès</span></td>
+      {% else %}
+      <td class="pt-1 pb-1"><span class="badge badge-danger">Erreur</span></td>
+      {% endif %}
+      {% if Mois == "now"|date("Y") ~ '05' %}
+      <td class="pt-1 pb-1"><span class="badge badge-success">Succès</span></td>
+      {% else %}
+      <td class="pt-1 pb-1"><span class="badge badge-danger">Erreur</span></td>
+      {% endif %}
+      {% if Mois == "now"|date("Y") ~ '06' %}
+      <td class="pt-1 pb-1"><span class="badge badge-success">Succès</span></td>
+      {% else %}
+      <td class="pt-1 pb-1"><span class="badge badge-danger">Erreur</span></td>
+      {% endif %}
+      {% if Mois == "now"|date("Y") ~ '07' %}
+      <td class="pt-1 pb-1"><span class="badge badge-success">Succès</span></td>
+      {% else %}
+      <td class="pt-1 pb-1"><span class="badge badge-danger">Erreur</span></td>
+      {% endif %}
+      {% if Mois == "now"|date("Y") ~ '08' %}
+      <td class="pt-1 pb-1"><span class="badge badge-success">Succès</span></td>
+      {% else %}
+      <td class="pt-1 pb-1"><span class="badge badge-danger">Erreur</span></td>
+      {% endif %}
+      {% if Mois == "now"|date("Y") ~ '09' %}
+      <td class="pt-1 pb-1"><span class="badge badge-success">Succès</span></td>
+      {% else %}
+      <td class="pt-1 pb-1"><span class="badge badge-danger">Erreur</span></td>
+      {% endif %}
+      {% if Mois == "now"|date("Y") ~ '10' %}
+      <td class="pt-1 pb-1"><span class="badge badge-success">Succès</span></td>
+      {% else %}
+      <td class="pt-1 pb-1"><span class="badge badge-danger">Erreur</span></td>
+      {% endif %}
+      {% if Mois == "now"|date("Y") ~ '11' %}
+      <td class="pt-1 pb-1"><span class="badge badge-success">Succès</span></td>
+      {% else %}
+      <td class="pt-1 pb-1"><span class="badge badge-danger">Erreur</span></td>
+      {% endif %}
+      {% if Mois == "now"|date("Y") ~ '12' %}
+      <td class="pt-1 pb-1"><span class="badge badge-success">Succès</span></td>
+      {% else %}
+      <td class="pt-1 pb-1"><span class="badge badge-danger">Erreur</span></td>
+      {% endif %}
+
+    {% else %}
+    {% set NotFound = NotFound ~ ' ' ~ intrm.LibelleIntrm %}
+      <div class="alert alert-dismissible alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <h4 class="alert-heading">Attention!</h4>
+        <p class="mb-0"></a>aucun fichier trouvé pour l'Intermédiaires : {{ NotFound }}.</p>
+      </div>
+      <td><span class="badge badge-warning">inconnu</span></td>
+    {% endif %}
+  {% endfor %}
+   </tr>
+  {% endfor %}
+</tbody>
+</table>
+
+
+{% else %}
+  <div class="alert alert-dismissible alert-primary">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4 class="alert-heading">Tableau vide!</h4>
+  <p class="mb-0">pas des données Intermidiaires.</p>
+</div>
+{% endif %}
+
+  </div>
+
+</div>
+
+{% endblock %}

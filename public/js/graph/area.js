@@ -16,8 +16,8 @@ function drawChart() {
     title: "Libellé Catégorie d'avoir = Av clts libres Tun",
     hAxis: {title: 'Date Bourse',  titleTextStyle: {color: '#333'}},
     vAxis: {minValue: 0},
-    height: 600,
-    width: 1200
+/*     height: 600,
+    width: 1200 */
   };
 
   var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));

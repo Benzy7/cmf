@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Intermidiares {% endblock %}
+
+{% block body %}
+
+    <a class="btn btn-link" href="/ref" role="button"><img src="/img/retour.png"></a><br><br>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm" align="left">
+      <h3>Intermédiaires</h3>
+    </div>
+    <div class="col-sm" align="center">
+      <div class="form-group has-search">
+        <span class="fa fa-search form-control-feedback"><img src="/img/loupe.png"></span>
+        <input type="search" placeholder="Chercher..." class="form-control mr-sm-2 search-input" data-table="intrs"/>
+      </div>
+    </div>
+    <div class="col-sm" align="right">
+      <a class="btn btn-primary" href="/intermidiares/new" role="button"><img src="/img/add.png">
+      <font style="opacity: 0.0;">_</font>Ajouter</a>   
+    </div>
+  </div>
+</div>
+
+ {% if intrms %}
+  <table id="intrs" name="intrs"class="table table-striped intrs" style="padding:5px; border-spacing:5px;">
+   <thead>
+    <th></th>
+    <th> Libellé intermédiaire</th>
+    <th> Libellé sigle établissement financier</th>
+    <th> Libellé Réduit intermédiaire</th>
+    <th> Code STICODEVAM ets. Inter agent</th>
+    <th> Date de clôture du code</th>
+    <th> Date de mise a jour</th>
+    <th> Actions</th>
+    <th></th>
+   </thead>
+    <tbody>
+    {% set obs = 1 %}
+     {% for intrm in intrms %}
+         <tr>
+          <th class="pt-1 pb-1 table-primary"> {{ obs }}</th>
+          <td class="pt-1 pb-1"> {{ intrm.CodeInterm.NomAdherent }}</td>
+          <td class="pt-1 pb-1"> {{ intrm.LibelleSigle }}</td>
+          <td class="pt-1 pb-1"> {{ intrm.LibelleReduit }}</td>
+          <td class="pt-1 pb-1"> {{ intrm.CodeInterm.CodeAdherent }}</td>
+          <td class="pt-1 pb-1"> {% if intrm.DateCult %} {{ intrm.DateCult|date("m/d/Y") }} {% endif %}</td>
+          <td class="pt-1 pb-1"> {% if intrm.datemaj %} {{ intrm.DateMaj|date("m/d/Y") }} {% endif %}</td>
+          <td class="pt-1 pb-1"> 
+          <a href="/intermidiares/edit/{{ intrm.id }}"><img src="/img/icons/pencil.png"></a>
+          </td>
+          <td class="pt-1 pb-1">
+          <a href="#"><img src="/img/icons/remove.png" class="delete-intrm" data-id="{{ intrm.id }}"></a> 
+          </td>
+         </tr> 
+         {% set obs = obs + 1 %}
+     {% endfor %}
+    </tbody>
+  </table>
+
+  <script src="/js/sch/sch.js"></script>
+  <script src="/js/del/intrm/suppintr.js"></script>
+
+  {% else %}
+  <div class="alert alert-dismissible alert-primary">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4 class="alert-heading">Tableau vide!</h4>
+  <p class="mb-0">pas des données de Type Valeurs.</p>
+  </div> 
+  {% endif %}
+
+{% endblock %}

@@ -15,13 +15,12 @@
 <br>
 <h2>Consulter l'historique Mouvement</h2>
 <br>
-
 {{ form_start(rech_form) }}
 <center>
  <table>
     <tr>
     <td>{{ form_label(rech_form.Datebdeb) }}</td>
-    <td>{{ form_widget(rech_form.Datebdeb) }}</td>
+    <td>{{ form_widget(rech_form.Datebdeb)  }}</td>
     <td>{{ form_label(rech_form.Datebfin) }}</td>     
     <td>{{ form_widget(rech_form.Datebfin) }}</td>
     </tr>
@@ -60,38 +59,33 @@
 
 <br> 
 
- {% if mouvements %}
+ {% if MvtFlt %}
 
  {% set sumNt = 0 %}    
  {% set sumM = 0 %} 
- {% set i = 1 %}   
-
+{#  {% set i = 1 %}  #}
   <table id="mouvements" name="mouvements" class="table-scroll small-first-col table table-striped fixed_header">
    <thead class="table-primary">
-    <th> Libellé</th>
-    <th>Nombre de titres</th>
-    <th>Montant</th>
+    <th class="col-12 col-md-8"> Libellé Opération</th>
+    <th class="col-sm-4">Nombre de titres</th>
+    <th class="col-sm-4">Montant</th>
    </thead>
     <tbody class="body-half-screen">
-     {% for mv in mouvements %}
-
+     {% for mv in MvtFlt %}
         <tr>
-          <th class="pt-1 pb-1"> {{ i }} </th>
-          <td class="pt-1 pb-1"> {{ mv.TitlesNumber|number_format }}</td>
-          <td class="pt-1 pb-1"> {{ mv.Amount|number_format }}</td>
+          <td class="pt-1 pb-1 col-12 col-md-8"> {{ mv[0] }} </td>
+          <td class="pt-1 pb-1 col-sm-4"> {{ mv[1] }}</td>
+          <td class="pt-1 pb-1 col-sm-4"> {{ mv[2] }}</td>
         </tr> 
-
-            {% set sumNt = sumNt + mv.TitlesNumber %}        
-            {% set sumM = sumM + mv.Amount %}   
-            {% set i = i + 1 %}   
-
+            {% set sumNt = sumNt + mv[1] %}        
+            {% set sumM = sumM + mv[2] %}   
      {% endfor %}
 
     </tbody>
     <tr>
-     <th>Total</th>
-     <td>{{ sumNt|number_format }}</td>
-     <td>{{ sumM|number_format }}</td>
+     <th class="col-12 col-md-8">Total</th>
+     <td class="col-sm-4">{{ sumNt }}</td>
+     <td class="col-sm-4">{{ sumM }}</td>
     </tr>
   </table>
 
@@ -102,8 +96,8 @@
   <button type="button" class="close" data-dismiss="alert">&times;</button>
   <h4 class="alert-heading">Tableau vide!</h4>
   <p class="mb-0">pas des données de mouvements.</p>
-  </div> 
+  </div>
+  {% set testVd = true %} 
  {% endif %} 
-
 
 {% endblock %}

@@ -5,15 +5,19 @@
 {% block body %}
 
 <div class="container">
+<center>
 
-    <h1>Bonjour 
-    
+<img src="/img/logo2.png">
+<br><br>
+<h1>SYSTEME DE SURVEILLANCE INFORMATIQUE</h1>
+
+</center>
+
+{#     <h2>Bonjour 
     {% if app.user.sexe == "homme" %} Monsieur {% endif %}
     {% if app.user.sexe == "femme" %} Madame {% endif %}
-
     {{ app.user.prenom  }} {{ app.user.nom  }} 
-    
-    </h1>
+    </h2> #}
     
 </div>
 {% endblock %}

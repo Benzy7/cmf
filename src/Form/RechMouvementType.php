@@ -6,8 +6,7 @@ use App\Entity\Adherent;
 use App\Entity\MouvementSearch;
 use App\Entity\Mouvement;
 use App\Entity\Operation;
-
-
+use App\Entity\Valeur;
 use Symfony\Component\Form\AbstractType;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -26,33 +25,41 @@ class RechMouvementType extends AbstractType
     {
         $builder
             ->add('Datebdeb',DateType::class,[
+                'widget' => 'single_text',
+                'data' => new \DateTime(),
                 'attr'=> array('class' => 'form-control'),
                 'required' => true,
                 'label' => 'Date Bourse du : ',
                 ])
             ->add('Datebfin',DateType::class,[
+                'widget' => 'single_text',
+                'data' => new \DateTime(),
                 'attr'=> array('class' => 'form-control'),
                 'required' => true,
                 'label' => 'Au : ',
                 ])
             ->add('Dateadeb',DateType::class,[
+                'widget' => 'single_text',
+                'data' => new \DateTime(),
                 'attr'=> array('class' => 'form-control'),
                 'label' => 'Date Comptable du : ',
                 'required' => true,
                 ])
             ->add('Dateafin',DateType::class,[
+                'widget' => 'single_text',
+                'data' => new \DateTime(),
                 'attr'=> array('class' => 'form-control'),
                 'label' => 'Au : ',
                 'required' => true,
                 ])
-            ->add('Sisin',ChoiceType::class,[
+            ->add('Sisin',EntityType::class,[
+                'class' => Valeur::class,
                 'attr' => array('class' => 'form-control'),
+                'label' => ' Code Valeur : ',
+                'choice_label' => 'CodeValeur',
                 'required' => false,
-                'label' => ' Code Valeur :',
-                'choices'  => [
-                    'TN0002300572' => 'TN0002300572',
-                    'TN0002300358' => 'TN0002300358',
-                ],
+                'placeholder' => '',
+                'empty_data' => null,
             ])
             ->add('Tisin',TextType::class,[
                 'attr' => array('class' => 'form-control'),
@@ -69,7 +76,6 @@ class RechMouvementType extends AbstractType
                 'placeholder' => '',
                 'empty_data' => null,
             ])
-
             ->add('Tcodeop',TextType::class,[
                 'attr' => array('class' => 'form-control'),
                 'required' => false,

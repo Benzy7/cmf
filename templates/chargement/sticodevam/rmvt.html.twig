@@ -4,12 +4,13 @@
 
 {% block body %}
 
-    <a class="btn btn-link" href="/chrg" role="button"><img src="/img/retour.png"></a>
+    <a class="btn btn-link" href="/chrg" role="button"><img src="/img/retour.png"></a><br><br>
+  <h3>Renseignement Sur les chargement de données Mouvements</h3><br>  
 
  {% if statMvt %}
   <table id="statMvt" name="statMvt" class="table table-striped fixed_header" style="padding:5px; border-spacing:5px;">
    <thead>
-    <th> ID</th>
+    <th></th>
     <th> Nom Ficher</th>
     <th> Date de chargement</th>
     <th> Heure de chargement</th>
@@ -20,9 +21,10 @@
     <th> Actions</th>
    </thead>
     <tbody>
+     {% set obs = 1 %}
      {% for statmv in statMvt %}
          <tr>
-          <td class="pt-1 pb-1"> {{ statmv.id }}</td>
+          <td class="table-primary pt-1 pb-1"> {{ obs }}</td>
           <td class="pt-1 pb-1"> {{ statmv.NomFicher }}</td>
           <td class="pt-1 pb-1"> {{ statmv.DateChrg|date("m/d/Y") }}</td>
           <td class="pt-1 pb-1"> {{ statmv.HeureChrg|date("H:i:s") }}</td>
@@ -34,6 +36,7 @@
             <a href="#" class="btn btn-danger delete-stat btn-sm" data-id="{{ statmv.id }}">Supprimer</a> 
           </td>
          </tr> 
+        {% set obs = obs + 1 %}
      {% endfor %}
     </tbody>
   </table>

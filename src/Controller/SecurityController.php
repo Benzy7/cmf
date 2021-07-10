@@ -19,8 +19,6 @@ class SecurityController extends AbstractController
 
         $lastUsername = $utils -> getLastUsername();
 
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_ANONYMOUSLY');
-
         return $this->render('security/login.html.twig', [
             'error'        => $error,
             'last_username'=> $lastUsername

@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Type Prix{% endblock %}
+
+{% block body %}
+
+    <a class="btn btn-link" href="/ref" role="button"><img src="/img/retour.png"></a><br><br>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm" align="left">
+      <h3>Types Prix</h3>
+    </div>
+    <div class="col-sm" align="center">
+      <div class="form-group has-search">
+        <span class="fa fa-search form-control-feedback"><img src="/img/loupe.png"></span>
+        <input type="search" placeholder="Chercher..." class="form-control mr-sm-2 search-input" data-table="PrmOrd"/>
+      </div>
+    </div>
+    <div class="col-sm" align="right">
+      <a class="btn btn-primary" href="/ord/typeprix/new" role="button"><img src="/img/add.png">
+      <font style="opacity: 0.0;">_</font>Ajouter</a>   
+    </div>
+  </div>
+</div>
+
+ {% if typesPrix %}
+  <table id="PrmOrd" name="PrmOrd" class="table table-striped fixed_header PrmOrd" style="padding:5px; border-spacing:5px;">
+   <thead>
+    <th> Obs</th>
+    <th> Code Type Prix</th>
+    <th> Libellé Type Prix</th>
+    <th> Date de mise a jour</th>
+    <th> Actions</th>
+   </thead>
+    <tbody class="tbodyy">
+    {% set obs = 1 %}
+     {% for tp in typesPrix %}
+         <tr>
+          <th class="pt-1 pb-1"> {{ obs }}</th>
+          <td class="pt-1 pb-1"> {{ tp.CodeTypePrix }}</td>
+          <td class="pt-1 pb-1"> {{ tp.LibTypePrix }}</td>
+          <td class="pt-1 pb-1"> {% if tp.datemaj %} {{ tp.DateMaj|date("m/d/Y") }} {% endif %}</td>
+          <td class="pt-1 pb-1"> 
+            <a href="/ord/typeprix/edit/{{ tp.id }}" class="btn btn-secondary btn-sm">Modifier</a>
+            <a href="#" class="btn btn-danger delete-tp btn-sm" data-id="{{ tp.id }}">Supprimer</a> 
+          </td>
+         </tr>
+        {% set obs = obs + 1 %} 
+     {% endfor %}
+    </tbody>
+  </table>
+
+   <script src="/js/del/ref/suppord.js"></script>
+   <script src="/js/sch/sch.js"></script>
+
+  {% else %}
+  <div class="alert alert-dismissible alert-primary">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4 class="alert-heading">Tableau vide!</h4>
+  <p class="mb-0">pas des types de prix.</p>
+  </div>  
+  {% endif %}
+
+{% endblock %}

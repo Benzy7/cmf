@@ -35,31 +35,33 @@ class StockRepository extends ServiceEntityRepository
             ->setParameter('dateafin', $dateafin);
 
             if($sisin || $tisin) {
-         $qb->andWhere('m.Isin LIKE :sisin OR m.Isin LIKE :tisin')
-            ->setParameter('sisin', $sisin)
-            ->setParameter('tisin', $tisin);
+            $qb->innerJoin('App\Entity\Valeur','v',Join::WITH,'v.id = m.CodeValeur');
+            $qb->andWhere('v.id LIKE :sisin OR v.CodeValeur LIKE :tisin')
+                ->setParameter('sisin', $sisin)
+                ->setParameter('tisin', $tisin);
             }
 
             if($scodead || $tcodead) {
-         $qb->innerJoin('App\Entity\Adherent','a',Join::WITH,'a.id = m.CodeAdherent');
-         $qb->andWhere('a.id LIKE :scodead OR a.CodeAdherent LIKE :tcodead')
-            ->setParameter('scodead', $scodead)
-            ->setParameter('tcodead', $tcodead);
+            $qb->innerJoin('App\Entity\Adherent','a',Join::WITH,'a.id = m.CodeAdherent');
+            $qb->andWhere('a.id LIKE :scodead OR a.CodeAdherent LIKE :tcodead')
+                ->setParameter('scodead', $scodead)
+                ->setParameter('tcodead', $tcodead);
             }
 
-        return $qb->orderBy('m.id', 'ASC')->getQuery()->getResult(); 
+        return $qb->orderBy('m.StockExchangeDate', 'ASC')->getQuery()->getResult(); 
     }
 
-    public function findByJour($dateadeb,$datebdeb,$sisin,$tisin,$scodead,$tcodead,$scoden,$tcoden,$TypeAdherents,$valeurs)
+    public function findByJour($dateadeb,$datebdeb,$sisin,$tisin,$scodead,$tcodead,$scoden,$tcoden,$TypeAdherents,$TypeValeurs)
     {
          $qb = $this->createQueryBuilder('m')
-            ->andWhere('m.AccountingDate >= :dateadeb')
+            ->andWhere('m.AccountingDate = :dateadeb')
             ->setParameter('dateadeb', $dateadeb)
-            ->andWhere('m.StockExchangeDate <= :datebdeb')
+            ->andWhere('m.StockExchangeDate = :datebdeb')
             ->setParameter('datebdeb', $datebdeb);
 
             if($sisin || $tisin) {
-         $qb->andWhere('m.Isin LIKE :sisin OR m.Isin LIKE :tisin')
+         $qb->innerJoin('App\Entity\Valeur','v',Join::WITH,'v.id = m.CodeValeur');
+         $qb->andWhere('v.id LIKE :sisin OR v.CodeValeur LIKE :tisin')
             ->setParameter('sisin', $sisin)
             ->setParameter('tisin', $tisin);
             }
@@ -91,15 +93,15 @@ class StockRepository extends ServiceEntityRepository
 
             }
 
-            if($valeurs) {
-                foreach($valeurs as $lvs){
-                $qb->andWhere('m.Isin = :lvs')
-                    ->setParameter('lvs', $lvs); 
-                }
-                //$qb->setParameter('valeurs', $valeurs);
+            if($TypeValeurs) {
+                $qb->innerJoin('App\Entity\Valeur','tv',Join::WITH,'tv.TypeValeur = m.CodeValeur');
+                foreach($TypeValeurs as $tv){
+                $qb->andWhere('tv.TypeValeur = :typev')
+                    ->setParameter('typev', $tv);
+                }                
             }     
 
-        return $qb->orderBy('m.id', 'ASC')->getQuery()->getResult(); 
+        return $qb->orderBy('m.CategorieAvoir', 'ASC')->getQuery()->getResult(); 
     }
 
     // /**

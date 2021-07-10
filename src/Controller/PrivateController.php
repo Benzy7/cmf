@@ -54,4 +54,16 @@ class PrivateController extends AbstractController
 
     }
 
+    /**
+     * @Route("/orders", name="Orders")
+     */
+    public function Orders(){
+
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        return $this->render('private/ord.html.twig');
+
+    }
+
 }

@@ -44,6 +44,11 @@ class CodeNature
      */
     private $stocks;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $DateMaj;
+
     public function __construct()
     {
         $this->mouvements = new ArrayCollection();
@@ -166,6 +171,18 @@ class CodeNature
                 $stock->setNatureCompte(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDateMaj(): ?\DateTimeInterface
+    {
+        return $this->DateMaj;
+    }
+
+    public function setDateMaj(?\DateTimeInterface $DateMaj): self
+    {
+        $this->DateMaj = $DateMaj;
 
         return $this;
     }

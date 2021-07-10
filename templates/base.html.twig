@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
+		<link rel="icon" href="img/favicon.ico" type="image/x-icon"> 
+		<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
 
@@ -9,10 +12,9 @@
 
         {# tab #}
         <link rel="stylesheet" href="/css/tab.css">
- 
-
-        <link rel="icon" type="image/png" href="img/logo.png"/>
         
+        <link rel="stylesheet" href="/css/searchBar.css">
+
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
@@ -34,6 +36,7 @@
         "sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"> 
         </script> 
+
 
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}

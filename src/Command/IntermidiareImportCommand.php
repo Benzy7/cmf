@@ -113,7 +113,8 @@ class IntermidiareImportCommand extends Command
                         ->setNbCodFlott($supplierFile['Caract'])
                     ;
                     $this->em->persist($newValeur);
-    
+                    $this->em->flush();
+
                     $codeValeur = $newValeur;    
                 }
 

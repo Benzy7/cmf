@@ -4,14 +4,28 @@
 
 {% block body %}
 
-    <a class="btn btn-link" href="/ref" role="button"><img src="/img/retour.png"></a>
+    <a class="btn btn-link" href="/ref" role="button"><img src="/img/retour.png"></a><br><br>
 
-<center>
-  <a class="btn" href="/valeur/new" role="button"><img src="/img/add-adr.png"></a>    
-</center>
+<div class="container">
+  <div class="row">
+    <div class="col-sm" align="left">
+      <h3>Valeurs</h3>
+    </div>
+    <div class="col-sm" align="center">
+      <div class="form-group has-search">
+        <span class="fa fa-search form-control-feedback"><img src="/img/loupe.png"></span>
+        <input type="search" placeholder="Chercher..." class="form-control mr-sm-2 search-input" data-table="valeurs"/>
+      </div>
+    </div>
+    <div class="col-sm" align="right">
+      <a class="btn btn-primary" href="/valeur/new" role="button"><img src="/img/add.png">
+      <font style="opacity: 0.0;">_</font>Ajouter</a>   
+    </div>
+  </div>
+</div>
 
  {% if valeurs %}
-  <table id="valeurs" name="valeurs"class="table table-striped" style="padding:5px; border-spacing:5px;">
+  <table id="valeurs" name="valeurs"class="table table-striped valeurs" style="padding:5px; border-spacing:5px;">
    <thead>
     <th></th>
     <th> Code Valeur</th>
@@ -29,11 +43,11 @@
 
      {% for val in valeurs %}
          <tr>
-          <th class="pt-1 pb-1"> {{ obs }}</th>
+          <th class="pt-1 pb-1 table-primary"> {{ obs }}</th>
           <td class="pt-1 pb-1"> {{ val.CodeValeur }}</td>
           <td class="pt-1 pb-1"> {{ val.LibelleValeur }}</td>
           <td class="pt-1 pb-1"> {{ val.Mnemonique }}</td>
-          <td class="pt-1 pb-1"> {{ val.TypeValeur }}</td>
+          <td class="pt-1 pb-1"> {% if val.TypeValeur %}{{ val.TypeValeur.CodeTypeValeur }}{% endif %}</td>
           <td class="pt-1 pb-1"> {{ val.NbTitresadmisBourse }}</td>
           <td class="pt-1 pb-1"> {{ val.NbCodFlott }}</td>
           <td class="pt-1 pb-1"> {{ val.GroupCotation }}</td>
@@ -48,7 +62,9 @@
     </tbody>
   </table>
 
-   <script src="/js/del/suppval.js"></script>
+    <script src="/js/sch/sch.js"></script>
+    <script src="/js/del/val/suppval.js"></script>
+
 
   {% else %}
   <div class="alert alert-dismissible alert-primary">

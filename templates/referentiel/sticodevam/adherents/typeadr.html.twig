@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Type Adhérents{% endblock %}
+
+{% block body %}
+
+    <a class="btn btn-link" href="/ref" role="button"><img src="/img/retour.png"></a><br><br>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm" align="left">
+      <h3>Types d'adhérents</h3>
+    </div>
+    <div class="col-sm" align="center">
+      <div class="form-group has-search">
+        <span class="fa fa-search form-control-feedback"><img src="/img/loupe.png"></span>
+        <input type="search" placeholder="Chercher..." class="form-control mr-sm-2 search-input" data-table="typeAdhrents"/>
+      </div>
+    </div>
+    <div class="col-sm" align="right">
+      <a class="btn btn-primary" href="/typeadr/new" role="button"><img src="/img/add.png">
+      <font style="opacity: 0.0;">_</font>Ajouter</a>   
+    </div>
+  </div>
+</div>
+
+ {% if typeAdhrents %}
+  <table id="typeAdhrents" name="typeAdhrents"class="table table-striped typeAdhrents">
+   <thead>
+    <th></th>
+    <th> Code Type Adhérent</th>
+    <th> Libellé Type Adhérent</th>
+    <th> Date de mise a jour</th>
+    <th> Actions</th>
+   </thead>
+    <tbody>
+        {% set obs = 1 %}
+     {% for typeAdhrent in typeAdhrents %}
+         <tr>
+          <th class="pt-1 pb-1 table-primary"> {{ obs }}</th>
+          <td class="pt-1 pb-1"> {{ typeAdhrent.CodeTypeAdherent }}</td>
+          <td class="pt-1 pb-1"> {{ typeAdhrent.LibelleTypeAdherent }}</td>
+          <td class="pt-1 pb-1"> {% if typeAdhrent.datemaj %} {{ typeAdhrent.DateMaj|date("m/d/Y") }} {% endif %}</td>
+          <td class="pt-1 pb-1"> 
+            <a href="/typeadr/edit/{{ typeAdhrent.id }}" class="btn btn-secondary btn-sm">Modifier</a>
+            <a href="#" class="btn-sm btn btn-danger delete-tadhrent" data-id="{{ typeAdhrent.id }}">Supprimer</a> 
+          </td>
+         </tr> 
+        {% set obs = obs + 1 %}
+     {% endfor %}
+    </tbody>
+  </table>
+
+   <script src="/js/del/supptypeadr.js"></script>
+   <script src="/js/sch/sch.js"></script>
+
+  {% else %}
+  <div class="alert alert-dismissible alert-primary">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4 class="alert-heading">Tableau vide!</h4>
+  <p class="mb-0">pas des données de type Adhrents.</p>
+  </div>  {% endif %}
+
+
+{% endblock %}

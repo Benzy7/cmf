@@ -26,7 +26,7 @@ class AdherentsController extends AbstractController
 
         $adhrents = $this->getDoctrine()->getRepository(Adherent::class)->findAll();
 
-        return $this->render('adherents/adr.html.twig' , array('adhrents' => $adhrents) );
+        return $this->render('referentiel/sticodevam/adherents/adr.html.twig' , array('adhrents' => $adhrents) );
     }
 
     /**
@@ -67,7 +67,7 @@ class AdherentsController extends AbstractController
             return $this->redirectToRoute('liste_adherents');
         }
 
-        return $this->render('adherents/new.html.twig', array( 'form' => $form->createView() ));
+        return $this->render('referentiel/sticodevam/adherents/new.html.twig', array( 'form' => $form->createView() ));
     }
 
     /**
@@ -106,7 +106,7 @@ class AdherentsController extends AbstractController
             return $this->redirectToRoute('liste_adherents');
         }
 
-        return $this->render('adherents/edit.html.twig', array( 'form' => $form->createView() ));
+        return $this->render('referentiel/sticodevam/adherents/edit.html.twig', array( 'form' => $form->createView() ));
     }
 
 
@@ -139,7 +139,7 @@ class AdherentsController extends AbstractController
 
         $typeAdhrents = $this->getDoctrine()->getRepository(TypeAdherent::class)->findAll();
 
-        return $this->render('adherents/typeadr.html.twig' , array('typeAdhrents' => $typeAdhrents) );
+        return $this->render('referentiel/sticodevam/adherents/typeadr.html.twig' , array('typeAdhrents' => $typeAdhrents) );
     }
 
     /**
@@ -174,7 +174,7 @@ class AdherentsController extends AbstractController
             return $this->redirectToRoute('liste_type_adherents');
         }
 
-        return $this->render('adherents/newtype.html.twig', array( 'form' => $form->createView() ));
+        return $this->render('referentiel/sticodevam/adherents/newtype.html.twig', array( 'form' => $form->createView() ));
     }
 
     /**
@@ -209,7 +209,7 @@ class AdherentsController extends AbstractController
             return $this->redirectToRoute('liste_type_adherents');
         }
 
-        return $this->render('adherents/edittype.html.twig', array( 'form' => $form->createView() ));
+        return $this->render('referentiel/sticodevam/adherents/edittype.html.twig', array( 'form' => $form->createView() ));
     }
 
 
